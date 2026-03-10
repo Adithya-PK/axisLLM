@@ -1,0 +1,398 @@
+
+
+
+You are a senior Python developer. Build me a complete working MVP called AXIS — an Offline LLM-powered Cybercrime Investigation Platform for Indian law enforcement. Built entirely in Python using Streamlit. Generate every file completely. Zero placeholders. Buildable in 8 hours by a student
+
+pasted
+
+
+1773050587461_{043F1A84-E3BB-4A3E-A9C2-3DB7C79B05B2}.png
+
+i want dashboard to have be exactly like this and have these features, , there should be liek a sidebar, with previous investigations, and also pages of the current investigation, 1 page view to drop files, 1 page view for summary and evidence table, 1 page for chatbot (displayinfg the files), 1 page view fot the report pdf export.
+
+
+
+this is teh description of the project, generate me the whole project.    Also change the tech tsack to this, i want all these as the tech stack  Should this be a web app (Next.js/React) or a Streamlit application? The project spec mentions Streamlit, but you're asking for a ChatGPT-like dashboard layout. Web App (Next.js/React) (Recommended) For the Ollama LLM backend, which approach do you prefer? Python API (FastAPI/Flask) Should investigation history be stored locally (browser storage) or in a database? Browser localStorage (Recommended)Should this be a web app (Next.js/React) or a Streamlit application? The project spec mentions Streamlit, but you're asking for a ChatGPT-like dashboard layout. Web App (Next.js/React) (Recommended) For the Ollama LLM backend, which approach do you prefer? Python API (FastAPI/Flask) Should investigation history be stored locally (browser storage) or in a database? Browser localStorage (Recommended)  ask me any more questiosn to be safe.  alos use  llama3:8b-instruct-q4_K_M for the ollama model
+
+Claude
+Pasted content
+14.15 KB •376 lines
+•
+Formatting may be inconsistent from source
+
+You are a senior Python developer. Build me a complete working 
+MVP called AXIS — an Offline LLM-powered Cybercrime Investigation 
+Platform for Indian law enforcement. Built entirely in Python 
+using Streamlit. Generate every file completely. Zero placeholders.
+Buildable in 8 hours by a student team.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PROJECT OVERVIEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AXIS is used by cybercrime police investigators to analyse
+digital evidence from court cases — chat transcripts, email
+dumps, witness statements, FIR documents, server logs.
+
+Core problem: Online LLMs like ChatGPT send evidence to
+foreign servers, violating chain of custody, IT Act and
+CrPC evidence handling rules. Cases get thrown out of court.
+
+AXIS runs a powerful LLM 100% offline on the investigator's
+local machine. Zero data leaves the device. Ever.
+
+User flow:
+Upload file → Parse and extract entities → Instant AI
+analysis → Chat with evidence → Download PDF report
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TECH STACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Frontend + App : Streamlit with custom CSS injected
+                 via st.markdown for dark professional UI
+LLM            : Ollama — llama3:8b-instruct-q4_K_M
+PDF Parse      : PyMuPDF (fitz)
+PDF Export     : ReportLab
+OS             : Windows, 8GB RAM
+No FastAPI, No React, No Node.js, No database
+Zero external API calls — localhost only
+Ollama runs at http://localhost:11434
+All backend functions called directly from app.py
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FOLDER STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AXIS/
+├── app.py
+├── backend/
+│   ├── __init__.py
+│   ├── parser.py
+│   ├── llm.py
+│   ├── pdf_reader.py
+│   └── report_gen.py
+├── sample_evidence/
+│   ├── chat_transcript.txt
+│   ├── phishing_email.txt
+│   └── witness_statement.txt
+├── requirements.txt
+└── start.bat
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STREAMLIT UI DESIGN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Inject this custom CSS at the very top of app.py
+using st.markdown with unsafe_allow_html=True to
+make the UI dark, professional and visually impressive.
+
+Colour palette to use throughout:
+Background   : #0a0a0f
+Cards        : #111118
+Accent       : #00d4aa
+Blue         : #0099ff
+Text         : #f0f0f0
+Low risk     : #22c55e
+Medium risk  : #eab308
+High risk    : #f97316
+Critical risk: #ef4444
+
+CSS must style:
+- Main app background to #0a0a0f
+- Sidebar with dark gradient + cyan left border
+- All buttons: cyan-to-blue gradient, bold black text,
+  rounded corners, hover lift effect with glow
+- File uploader: dashed cyan border, dark background
+- Metric cards: dark background with subtle cyan border
+- Chat messages: dark card style with subtle border
+- All headings: h1 cyan, h2 white, h3 muted cyan
+- Success/error/warning/info boxes with left
+  coloured border matching their type
+- DataFrame tables with cyan border
+
+Risk badges must be HTML rendered via st.markdown:
+Critical → red pill badge with 🔴
+High     → orange pill badge with 🟠
+Medium   → yellow pill badge with 🟡
+Low      → green pill badge with 🟢
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SIDEBAR — shared across all pages
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- AXIS logo: large bold cyan "⚡ AXIS" centered
+- Subtitle: "CYBERCRIME INVESTIGATION PLATFORM"
+- Divider
+- Animated green pulsing dot + "🟢 OFFLINE MODE ACTIVE"
+- Divider
+- Navigation radio with 4 options:
+    📁 Upload Evidence
+    🔍 Analysis
+    💬 Investigate
+    📄 Report
+- Divider
+- If file is loaded: show filename + evidence type
+  in a small styled dark card
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PAGE 1 — UPLOAD EVIDENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Page title and subtitle
+- Two column layout: file upload left, options right
+- File uploader accepting .txt, .pdf, .log
+- Show filename, size, type after file selected
+- Selectbox for evidence type:
+    🗨️ Chat Transcript
+    📧 Email Dump
+    📋 Witness Statement / FIR
+    🖥️ Server / Access Log
+    💰 Financial Records
+- Info box on right explaining what AXIS will
+  extract for the selected evidence type
+- Large centred "🔍 Begin Analysis" button
+- On click:
+    Validate file is uploaded
+    Read file bytes
+    PDF → call pdf_reader.extract_text
+    txt/log → decode utf-8
+    Spinner: "⚡ Parsing evidence..."
+      → call parser.parse_evidence
+      → store in st.session_state.entities
+    Spinner: "🧠 Running AI analysis..."
+      → call llm.analyse_evidence
+      → store all results in st.session_state
+    Store filename, raw_text, evidence_type
+    st.success "✅ Analysis complete!"
+    Auto switch to Analysis page via
+      st.session_state.page and st.rerun()
+- st.error if no file selected
+- st.error if Ollama not reachable
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PAGE 2 — ANALYSIS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- If no session data: warning and stop
+- 4 metric cards in a row:
+    Risk Score | Persons Found |
+    Keywords Flagged | Laws Matched
+- Risk badge HTML + crime type label
+- Divider
+- Two column layout:
+
+LEFT — Extracted Entities:
+- Subheader with icon
+- st.dataframe showing all extracted entities:
+  Type | Value | Flagged
+  (persons, phones, emails, URLs, dates,
+  locations, criminal keywords with counts)
+- Applicable laws as green checkmark bullets
+
+RIGHT — AI Intelligence:
+- AI Summary in a styled dark card
+- Key Findings as bullet list
+- Recommended Actions as numbered list
+
+- Bottom: two buttons side by side
+  "💬 Investigate Further" and "📄 Generate Report"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PAGE 3 — INVESTIGATE (CHAT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- If no session data: warning and stop
+- Top bar showing filename, type, risk badge
+- 6 suggestion chip buttons in 2 rows of 3:
+    "Who are the suspects?"
+    "What crime was committed?"
+    "Which IT Act sections apply?"
+    "Build a timeline of events"
+    "Summarise key evidence"
+    "What should I do next?"
+  Clicking a chip sets it as the prompt input
+- Full chat history displayed using
+  st.chat_message for user and assistant
+- Assistant avatar is "⚡"
+- st.chat_input at bottom
+- On message submit:
+    Append to chat_history in session_state
+    Spinner: "🧠 AXIS is analysing..."
+    Call llm.chat_with_evidence with full context
+    Update chat_history with reply
+    st.rerun()
+- Download report button below chat
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PAGE 4 — REPORT PREVIEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- If no session data: warning and stop
+- Full report preview rendered on screen:
+    Styled header banner: AXIS report title
+    CONFIDENTIAL label
+    Date, filename, evidence type
+    4 metric cards: risk score, crime type etc
+    Full entities dataframe
+    Applicable laws list
+    Full AI summary
+    Key findings numbered
+    Recommended actions numbered
+    Chat transcript if chat was used
+      showing each Q and A clearly
+- Large full width download button at bottom:
+  "⬇️ Download PDF Report"
+  Calls report_gen.generate_report with
+  all session_state data
+  Returns bytes for st.download_button
+  Filename: AXIS_Report_YYYY-MM-DD.pdf
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+backend/parser.py
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Function: parse_evidence(text: str) -> dict
+
+Extract from any plain text using regex:
+- Names: two consecutive Title Case words
+- Phones: Indian format \b[6-9]\d{9}\b
+- Emails: standard email regex
+- URLs: http/https, flag if domain not in
+  [sbi.co.in, hdfcbank.com, icicibank.com,
+  gov.in, nic.in]
+- Dates: DD/MM/YYYY and written month formats
+- Locations: match list of 20 Indian cities
+- Criminal keywords with occurrence count:
+  [threat, kill, leak, blackmail, extort, hack,
+  fake, fraud, illegal, maal, supari, payment,
+  transfer, account, password, OTP, nude, photo,
+  video, money, cash, ransom, demand]
+
+IT Act auto-match rules:
+  nude/photo/video/leak/blackmail → 66E, 67, 354D IPC
+  OTP/password/fake/phishing/bank → 66C, 66D, 420 IPC
+  hack/unauthorised/access/server → Sec 43, 66 IT Act
+  fraud/transfer/account/money    → 66D, 420 IPC
+  threat/kill/ransom/extort       → 506 IPC, 384 IPC
+
+Return structured dict with all entities
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+backend/llm.py
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OLLAMA_URL = "http://localhost:11434/api/chat"
+MODEL = "llama3:8b-instruct-q4_K_M"
+
+Function: analyse_evidence(entities, raw_text,
+                            evidence_type) -> dict
+- System prompt instructs AXIS to respond ONLY
+  in exact JSON format:
+  {
+    risk_level: Low|Medium|High|Critical,
+    risk_score: 0-100,
+    crime_type: short string,
+    summary: 3 paragraph plain English,
+    key_findings: [6 strings],
+    recommended_actions: [4 strings],
+    applicable_laws: [sections with descriptions]
+  }
+- Never hallucinate, only use provided data
+- If JSON parse fails retry once
+- Return dict
+
+Function: chat_with_evidence(message, entities,
+                  raw_text, chat_history) -> str
+- System prompt: AXIS forensic analyst for Indian
+  law enforcement, answer only from evidence,
+  cite IT Act and IPC sections, never hallucinate
+- Include entities JSON + raw_text (max 3000 chars)
+  in system message as context
+- Include full chat_history as conversation memory
+- Return reply string
+- ConnectionError → clear error message
+- Timeout → clear error message
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+backend/pdf_reader.py
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Function: extract_text(file_bytes: bytes) -> str
+- Open PDF with fitz from bytes stream
+- Extract all pages as text
+- Return single joined string
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+backend/report_gen.py
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Function: generate_report(data: dict) -> bytes
+- Use ReportLab only
+- Return PDF as bytes for st.download_button
+- Professional black and white court-ready layout
+
+Sections in order:
+1. Header: AXIS title, CONFIDENTIAL label,
+   date, filename, evidence type
+2. Risk summary box: level, score, crime type
+3. Extracted entities table with borders
+4. Applicable laws bullet list
+5. Full AI summary paragraphs
+6. Key findings numbered list
+7. Recommended actions numbered list
+8. Chat transcript if it exists:
+   Investigator: [question]
+   AXIS: [answer]
+9. Footer on every page:
+   "Generated by AXIS — Offline Cybercrime
+   Investigation Platform"
+   "AI-assisted. Verify with certified examiner."
+   Page numbers
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SAMPLE EVIDENCE FILES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generate all 3 files with realistic content:
+
+chat_transcript.txt:
+- 30 line WhatsApp style conversation
+- Suspects: Rahul and Vikram
+- Drug deal discussion in Hindi-English mix
+- Threat to victim if payment not made
+- Includes phone number and amount
+
+phishing_email.txt:
+- 20 lines fake SBI bank email
+- From: support@sbi-secure-alert.com
+- Malicious link: http://sbi-verify-now.xyz/login
+- Urgency: account blocked in 24 hours
+- Asks for OTP and card number
+
+witness_statement.txt:
+- 25 lines FIR style document
+- Victim: Priya Sharma, Chennai
+- Accused: Arjun Mehta
+- WhatsApp threats to leak private photos
+- Demand: Rs 50,000
+- Dates in February 2026
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+requirements.txt
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+streamlit==1.35.0
+PyMuPDF==1.24.5
+requests==2.32.3
+reportlab==4.1.0
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+start.bat
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Start ollama serve in background
+- Wait 3 seconds
+- Pull llama3:8b-instruct-q4_K_M if not present
+- pip install -r requirements.txt
+- streamlit run app.py
+- Open browser to http://localhost:8501
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ABSOLUTE RULES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Every file fully complete — zero placeholders
+- No FastAPI, no React, no Node.js, no database
+- No Docker, no auth, no login screen
+- No external API calls of any kind
+- All state via st.session_state only
+- All backend functions imported and called
+  directly in app.py — no HTTP calls between them
+- Ollama down → clear st.error message
+- Wrong file type → clear st.error message
+- All pages in single app.py file using
+  sidebar navigation and if/elif page logic
