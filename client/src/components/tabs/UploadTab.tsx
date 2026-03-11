@@ -48,7 +48,7 @@ const EVIDENCE_INPUT_TYPES = [
   {
     icon: "🖼️",
     label: "Image Evidence",
-    desc: "Screenshots, photos, scanned documents. Analyzed by Moondream AI to extract visible text, names, URLs and criminal content.",
+    desc: "Screenshots, photos, scanned documents. Analyzed by LLaVA AI to extract visible text, names, URLs and criminal content.",
     formats: ".png .jpg .jpeg .webp",
   },
   {
@@ -141,7 +141,7 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
 
       for (const uf of files) {
         if (uf.isImage) {
-          toast({ title: `Analyzing image: ${uf.file.name}`, description: "Running Moondream visual forensics..." });
+          toast({ title: `Analyzing image: ${uf.file.name}`, description: "Running LLaVA visual forensics..." });
           const base64 = await readAsBase64(uf.file);
           const res = await fetch("/api/analysis/image", {
             method: "POST", headers: { "Content-Type": "application/json" },
@@ -235,7 +235,7 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
                 <div className="flex-1 overflow-hidden">
                   <p className="text-sm text-white font-medium truncate">{uf.file.name}</p>
                   <p className="text-[10px] text-muted-foreground font-mono">
-                    {(uf.file.size / 1024).toFixed(1)} KB · {uf.isImage ? "Visual AI (Moondream)" : uf.isPDF ? "PDF extraction" : "Text parsing"}
+                    {(uf.file.size / 1024).toFixed(1)} KB · {uf.isImage ? "Visual AI (LLaVA)" : uf.isPDF ? "PDF extraction" : "Text parsing"}
                   </p>
                 </div>
                 <button onClick={() => removeFile(uf.id)} className="text-muted-foreground hover:text-red-400 p-1 transition-colors">

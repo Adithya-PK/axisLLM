@@ -5,69 +5,69 @@ const MODEL = "llama3.1:8b";
 const VISION_MODEL = "llava:7b";
 
 const CRIME_TYPES = [
-  "Cyber Fraud", "Online Harassment", "Identity Theft", "Extortion",
-  "Drug Trafficking", "Human Trafficking", "Financial Fraud", "Unauthorized Hacking",
-  "Child Exploitation", "Terrorism", "Murder", "Theft", "Forgery",
-  "Blackmail", "Ransomware Attack", "Phishing", "Stalking",
-  "Sexual Harassment", "Money Laundering", "Impersonation", "Corporate Espionage",
-  "Data Exfiltration", "Credential Theft",
+  "Cyber Fraud","Online Harassment","Identity Theft","Extortion",
+  "Drug Trafficking","Human Trafficking","Financial Fraud","Unauthorized Hacking",
+  "Child Exploitation","Terrorism","Murder","Theft","Forgery",
+  "Blackmail","Ransomware Attack","Phishing","Stalking",
+  "Sexual Harassment","Money Laundering","Impersonation","Corporate Espionage",
+  "Data Exfiltration","Credential Theft",
 ];
 
-// Coerce any value to a string
 function toStr(val: any): string {
   if (typeof val === "string") return val;
   if (Array.isArray(val)) return val.map(v => String(v ?? "")).join("\n\n");
   return String(val ?? "");
 }
-
-// Coerce any value to a string array
 function toStrArr(val: any): string[] {
   if (Array.isArray(val)) return val.map(v => String(v ?? "")).filter(Boolean);
   if (typeof val === "string" && val.trim()) return [val];
   return [];
 }
-
 const cap = (s: string) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 
+function detectCrime(text: string): string {
+  const t = text.toLowerCase();
+  if (t.includes("exfiltrat") || t.includes("data theft")) return "Data Exfiltration";
+  if (t.includes("phishing") || t.includes("fake link") || t.includes("fake sbi")) return "Phishing";
+  if (t.includes("ransom")) return "Ransomware Attack";
+  if (t.includes("blackmail") || t.includes("nude")) return "Blackmail";
+  if (t.includes("hack") || t.includes("brute force") || t.includes("port scan")) return "Unauthorized Hacking";
+  if (t.includes("extort")) return "Extortion";
+  if (t.includes("launder") || t.includes("mule account") || t.includes("xmr")) return "Money Laundering";
+  if (t.includes("impersonat") || t.includes("fake sim")) return "Impersonation";
+  if (t.includes("stalk") || (t.includes("harass") && t.includes("online"))) return "Online Harassment";
+  if (t.includes("corporate") || t.includes("intellectual property")) return "Corporate Espionage";
+  if (t.includes("credential") || (t.includes("password") && t.includes("steal"))) return "Credential Theft";
+  if (t.includes("otp") || t.includes("scam") || t.includes("fraud") || t.includes("fake")) return "Cyber Fraud";
+  return "Cyber Fraud";
+}
+
 export async function analyzeEvidence(text: string, entities: Entity[], evidenceType: string) {
-  const nameEntities = entities.filter(e => e.type === "Name" || e.type === "Username").map(e => e.value);
-  const amounts = entities.filter(e => e.type === "Amount").map(e => e.value);
+  const crimeHint = detectCrime(text);
 
-  // Keyword-based crime type detection from evidence text
-  const textLower = text.toLowerCase();
-  let crimeHint = "";
-  if (textLower.includes("exfiltrat") || textLower.includes("data theft") || textLower.includes("stolen data")) crimeHint = "Data Exfiltration";
-  else if (textLower.includes("phishing") || textLower.includes("fake link") || textLower.includes("otp") || textLower.includes("fake sbi")) crimeHint = "Phishing";
-  else if (textLower.includes("ransom")) crimeHint = "Ransomware Attack";
-  else if (textLower.includes("blackmail") || textLower.includes("nude") || textLower.includes("expose")) crimeHint = "Blackmail";
-  else if (textLower.includes("hack") || textLower.includes("brute force") || textLower.includes("port scan")) crimeHint = "Unauthorized Hacking";
-  else if (textLower.includes("extort")) crimeHint = "Extortion";
-  else if (textLower.includes("launder") || textLower.includes("mule account") || textLower.includes("xmr") || textLower.includes("monero")) crimeHint = "Money Laundering";
-  else if (textLower.includes("impersonat") || textLower.includes("fake sim") || textLower.includes("fake id")) crimeHint = "Impersonation";
-  else if (textLower.includes("stalk") || (textLower.includes("harass") && textLower.includes("online"))) crimeHint = "Online Harassment";
-  else if (textLower.includes("corporate") || textLower.includes("intellectual property")) crimeHint = "Corporate Espionage";
-  else if (textLower.includes("credential") || (textLower.includes("password") && textLower.includes("steal"))) crimeHint = "Credential Theft";
-  else if (textLower.includes("scam") || textLower.includes("fraud") || textLower.includes("fake")) crimeHint = "Cyber Fraud";
+  // Slim entity summary — only key types, max 15 entities
+  const keyEntities = entities
+    .filter(e => ["Name","Phone","Email","IP Address","URL","UPI ID","Amount","Device ID"].includes(e.type))
+    .slice(0, 15)
+    .map(e => `${e.type}: ${e.value}`)
+    .join(", ");
 
-  const prompt = `You are AXIS, a forensic analyst AI for Indian law enforcement.
-Analyze the evidence and return a JSON object.
+  // Trim evidence text — 2000 chars is enough for most cases
+  const evidenceSnippet = text.substring(0, 2000);
 
-CRITICAL RULES:
-1. "crime_type" MUST be exactly one of: [${CRIME_TYPES.join(", ")}]
-   Best match for this evidence: "${crimeHint || "Cyber Fraud"}"
-   NO commas, NO slash, NO "and" — exactly ONE value.
-2. "summary" MUST be a single STRING with 3 paragraphs separated by \\n\\n. NOT an array.
-3. "key_findings", "recommended_actions", "applicable_laws" MUST be arrays of strings.
-4. All strings must start with a capital letter.
-5. Be SPECIFIC — mention actual names (${nameEntities.slice(0, 3).join(", ") || "unknown"}), amounts (${amounts.slice(0, 3).join(", ") || "none found"}).
-6. Return ONLY raw JSON. No markdown, no backticks, no text before or after.
+  const prompt = `You are AXIS, a forensic AI for Indian law enforcement. Analyze the evidence and return JSON only.
 
-Evidence type: ${evidenceType}
-Entities: ${JSON.stringify(entities.slice(0, 20))}
-Evidence text: ${text.substring(0, 3500)}
+Crime type: "${crimeHint}" (use exactly this unless evidence clearly shows another from: ${CRIME_TYPES.join(", ")})
+Key entities: ${keyEntities || "none extracted"}
+Evidence (${evidenceType}): ${evidenceSnippet}
 
-JSON format (copy this structure exactly):
-{"risk_level":"High","risk_score":85,"crime_type":"${crimeHint || "Cyber Fraud"}","summary":"Paragraph one here.\\n\\nParagraph two here.\\n\\nParagraph three here.","key_findings":["Finding one","Finding two"],"recommended_actions":["Action one","Action two"],"applicable_laws":["IT Act Section 66C"]}`;
+Rules: Be specific, cite actual entity values. No fabrication. Neutral tone. No guilt declaration.
+
+Summary must use this exact structure separated by \\n\\n:
+"OVERVIEW:\\n[what happened, who involved]\\n\\nEVIDENCE PROVIDED:\\n[what each evidence confirms]\\n\\nFINDINGS:\\n[patterns, relationships, contradictions]\\n\\nLEGAL RELEVANCE:\\n[which Indian law sections apply and why]"
+
+Return ONLY this JSON:
+{"risk_level":"High","risk_score":85,"crime_type":"${crimeHint}","summary":"OVERVIEW:\\n...\\n\\nEVIDENCE PROVIDED:\\n...\\n\\nFINDINGS:\\n...\\n\\nLEGAL RELEVANCE:\\n...","key_findings":["finding with entity","finding with timestamp"],"recommended_actions":["specific action","specific action"],"applicable_laws":["IT Act Section X — reason","IPC Section Y — reason"]}`;
 
   try {
     const response = await fetch(OLLAMA_URL, {
@@ -78,13 +78,17 @@ JSON format (copy this structure exactly):
         messages: [{ role: "user", content: prompt }],
         stream: false,
         format: "json",
+        options: {
+          num_predict: 800,
+          temperature: 0.2,
+          top_p: 0.9,
+        },
       }),
     });
     const data = await response.json();
-    let raw = data.message.content.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(raw);
+    if (!data?.message?.content) throw new Error("Empty Ollama response");
+    const parsed = JSON.parse(data.message.content.replace(/```json|```/g, "").trim());
 
-    // ── Sanitize all fields robustly ────────────────────────────────────────
     const result = {
       risk_level: toStr(parsed.risk_level) || "High",
       risk_score: Number(parsed.risk_score) || 75,
@@ -95,7 +99,6 @@ JSON format (copy this structure exactly):
       applicable_laws: toStrArr(parsed.applicable_laws).map(cap),
     };
 
-    // Ensure arrays are never empty
     if (!result.key_findings.length) result.key_findings = ["Evidence analyzed — see summary for details."];
     if (!result.recommended_actions.length) result.recommended_actions = ["Refer case to cyber cell for further investigation."];
     if (!result.applicable_laws.length) result.applicable_laws = ["IT Act Section 66D"];
@@ -106,7 +109,7 @@ JSON format (copy this structure exactly):
     return {
       risk_level: "High",
       risk_score: 75,
-      crime_type: crimeHint || "Cyber Fraud",
+      crime_type: crimeHint,
       summary: "Could not reach Ollama. Ensure it is running and llama3.1:8b is pulled.",
       key_findings: ["Ollama unreachable or returned invalid JSON."],
       recommended_actions: ["Start Ollama.", "Run: ollama pull llama3.1:8b"],
@@ -124,43 +127,52 @@ export async function analyzeImage(base64Image: string, mimeType: string): Promi
         model: VISION_MODEL,
         messages: [{
           role: "user",
-          content: `You are a forensic analyst. Read ALL text visible in this image carefully.
+          content: `Forensic image analysis. Extract and list everything visible:
+1. NAMES — all names on chat bubbles, profiles, labels
+2. MESSAGES — transcribe every message exactly
+3. PHONES — every number visible
+4. URLS — copy exactly character by character
+5. AMOUNTS — any money or transaction values
+6. SUSPICIOUS CONTENT — threats, fake links, fraud
+7. CHAT NAME — name at top of screen
+8. TIMESTAMPS — all dates and times
+9. ANY OTHER TEXT — signs, watermarks, captions
 
-Extract and list EVERYTHING you can see:
-1. SENDER/PARTICIPANT NAMES — list every name shown (chat bubble names, profile names, usernames)
-2. ALL MESSAGE TEXT — transcribe every message word for word
-3. PHONE NUMBERS — any number visible
-4. URLs AND LINKS — copy exactly
-5. AMOUNTS OF MONEY — any currency or amount
-6. CRIMINAL CONTENT — threats, fraud, scam, fake links, suspicious requests
-7. GROUP/CHAT NAME — name shown at top of chat
-8. TIMESTAMPS — any dates or times visible
-9. ANY OTHER TEXT — signs, watermarks, captions, labels
-
-Be exhaustive. If you see a name label on a chat bubble, list it. Do not summarize — transcribe everything.`,
+Transcribe everything. Do not summarize.`,
           images: [base64Image],
         }],
         stream: false,
+        options: { num_predict: 600, temperature: 0.1 },
       }),
     });
     const data = await response.json();
-    return data.message.content;
+    return data?.message?.content || "Image could not be analyzed — Ollama may be offline.";
   } catch (error) {
     console.error("LLaVA error:", error);
-    return "Could not analyze image. Ensure Ollama is running and llava:7b is pulled (ollama pull llava:7b).";
+    return "Could not analyze image. Ensure Ollama is running and llava:7b is pulled.";
   }
 }
 
 export async function chatWithEvidence(message: string, entities: Entity[], text: string, chatHistory: any[]) {
-  const systemPrompt = `You are AXIS, a forensic analyst AI for Indian law enforcement.
-Answer ONLY based on the evidence below. Cite IT Act and IPC sections where applicable. Never invent facts.
-Entities extracted from evidence: ${JSON.stringify(entities)}
-Full evidence text: ${text.substring(0, 3000)}`;
+  // Slim entity list for chat context
+  const entitySummary = entities
+    .filter(e => ["Name","Phone","Email","IP Address","URL","UPI ID","Amount"].includes(e.type))
+    .slice(0, 20)
+    .map(e => `${e.type}: ${e.value}`)
+    .join("\n");
+
+  const systemPrompt = `You are AXIS, a forensic analyst for Indian law enforcement.
+Answer only from the evidence below. Never invent facts. Plain prose only — no asterisks, no bullets, no markdown.
+Cite IT Act / IPC sections where relevant. Reference specific entity values in answers.
+If unanswerable from evidence, say so explicitly.
+
+Entities: ${entitySummary}
+Evidence: ${text.substring(0, 2000)}`;
 
   const messages = [
     { role: "user", content: systemPrompt },
-    { role: "assistant", content: "Understood. I will only reference the provided evidence and cite Indian law sections where applicable." },
-    ...chatHistory,
+    { role: "assistant", content: "Understood. I will answer only from the provided evidence using plain prose and cite Indian law where applicable." },
+    ...chatHistory.slice(-6),
     { role: "user", content: message },
   ];
 
@@ -168,10 +180,15 @@ Full evidence text: ${text.substring(0, 3000)}`;
     const response = await fetch(OLLAMA_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model: MODEL, messages, stream: false }),
+      body: JSON.stringify({
+        model: MODEL,
+        messages,
+        stream: false,
+        options: { num_predict: 400, temperature: 0.3 },
+      }),
     });
     const data = await response.json();
-    return data.message.content;
+    return data?.message?.content || "Could not reach Ollama.";
   } catch (error) {
     console.error("Ollama chat error:", error);
     return "Could not reach Ollama. Make sure it is running at http://localhost:11434.";

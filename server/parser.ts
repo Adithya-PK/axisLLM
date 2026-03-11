@@ -269,7 +269,7 @@ export function parseEvidence(text: string): Entity[] {
   // ── 3. APPLY THRESHOLD & DEDUP ────────────────────────────────────────────
   // Sort by score descending so longer/higher-scored names are added first
   type CandidateEntry = [string, { display: string; score: number; fromSignal: boolean }];
-  const sorted: CandidateEntry[] = ([...candidates.entries()] as CandidateEntry[]).sort((a, b) => b[1].score - a[1].score);
+  const sorted: CandidateEntry[] = Array.from(candidates.entries()).sort((a, b) => b[1].score - a[1].score) as CandidateEntry[];
 
   const addedNameKeys: string[] = [];
 
