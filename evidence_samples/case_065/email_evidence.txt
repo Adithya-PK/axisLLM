@@ -1,0 +1,16 @@
+From: security@sbi-update-alert.com
+To: rohitkumar@gmail.com
+Subject: URGENT - Verify your SBI account
+
+Dear Customer,
+
+Your State Bank of India account has been temporarily restricted due to unusual login activity.
+
+Please verify your account immediately to avoid suspension.
+
+Verification Link:
+https://sbi.283629.com
+
+Failure to verify within 24 hours may result in permanent suspension.
+
+SBI Security Team

@@ -1,0 +1,39 @@
+2024-04-30 02:13:07 INFO  [badge_access] Door: SERVER_ROOM_A | Badge: HEN-0047 (Derek Henderson) | Result: GRANTED
+2024-04-30 02:13:22 INFO  [dhcp_server ] LEASE ASSIGNED | IP: 192.168.1.105 | MAC: C4:E9:84:3A:0F:22 | Hostname: UNKNOWN-DEVICE
+2024-04-30 02:14:01 INFO  [auth_server ] LOGIN SUCCESS | User: mvance | Source: 192.168.1.105 | Method: NTLM
+2024-04-30 02:14:03 INFO  [file_server ] SESSION OPEN | User: mvance | IP: 192.168.1.105 | Share: \\FILESVR01\Legal
+2024-04-30 02:14:55 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Legal\IP_Filings_Q1_2024.docx | Size: 2.1MB
+2024-04-30 02:15:10 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Legal\Patent_Draft_ATL-009.pdf | Size: 4.7MB
+2024-04-30 02:16:44 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Finance\Q2_Projections_CONFIDENTIAL.xlsx | Size: 1.8MB
+2024-04-30 02:17:55 INFO  [alert_system] EMAIL ALERT SENT | Recipient: m.vance@deltatech-corp.com | Subject: Unusual after-hours login
+2024-04-30 02:31:18 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Legal\ClientDB_Export_2024.zip | Size: 6.3MB
+2024-04-30 02:44:02 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Finance\Contracts_Active_2024.pdf | Size: 3.1MB
+2024-04-30 02:58:30 INFO  [file_server ] SESSION CLOSE | User: mvance | IP: 192.168.1.105 | Duration: 44m29s | Bytes transferred: 18.0MB
+2024-04-30 02:59:01 INFO  [dhcp_server ] LEASE EXPIRED | IP: 192.168.1.105 | MAC: C4:E9:84:3A:0F:22
+2024-04-30 03:01:14 INFO  [badge_access] Door: SERVER_ROOM_A | Badge: HEN-0047 (Derek Henderson) | Result: GRANTED (EXIT)
+2024-05-02 01:02:48 INFO  [dhcp_server ] LEASE ASSIGNED | IP: 192.168.1.105 | MAC: C4:E9:84:3A:0F:22 | Hostname: UNKNOWN-DEVICE
+2024-05-02 01:03:11 INFO  [auth_server ] LOGIN SUCCESS | User: mvance | Source: 192.168.1.105 | Method: NTLM
+2024-05-02 01:03:15 INFO  [file_server ] SESSION OPEN | User: mvance | IP: 192.168.1.105 | Share: \\FILESVR01\Finance
+2024-05-02 01:04:02 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Finance\BankRecords_Apr2024.xlsx | Size: 0.9MB
+2024-05-02 01:18:55 WARN  [ids_system  ] PORT SCAN DETECTED | Source: 192.168.1.105 | Targets: 10.0.0.1-10.0.0.254 | Ports: 22,80,443,445,3389
+2024-05-02 01:19:10 WARN  [ids_system  ] ALERT: Unusual outbound connection attempt | Source: 192.168.1.105 | Dest: 10.0.0.44 | Port: 445
+2024-05-02 01:44:30 INFO  [file_server ] SESSION CLOSE | User: mvance | IP: 192.168.1.105 | Duration: 41m19s | Bytes transferred: 11.2MB
+2024-05-05 01:55:00 INFO  [badge_access] Door: SERVER_ROOM_A | Badge: HEN-0047 (Derek Henderson) | Result: GRANTED
+2024-05-05 01:55:41 INFO  [dhcp_server ] LEASE ASSIGNED | IP: 192.168.1.105 | MAC: C4:E9:84:3A:0F:22 | Hostname: UNKNOWN-DEVICE
+2024-05-05 01:56:02 INFO  [auth_server ] LOGIN SUCCESS | User: mvance | Source: 192.168.1.105 | Method: NTLM
+2024-05-05 01:56:05 INFO  [file_server ] SESSION OPEN | User: mvance | IP: 192.168.1.105 | Share: \\FILESVR01\Legal
+2024-05-05 02:10:44 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Legal\ClientDB_Export_2024.zip | Size: 6.3MB
+2024-05-05 02:30:01 INFO  [file_server ] READ | User: mvance | File: \\FILESVR01\Legal\IP_Filings_Q1_2024.docx | Size: 2.1MB
+2024-05-05 02:31:19 ERROR [auth_server ] FAILED LOGIN | User: admin | Source: 192.168.1.105 | Reason: Invalid credentials
+2024-05-05 02:31:25 ERROR [auth_server ] FAILED LOGIN | User: administrator | Source: 192.168.1.105 | Reason: Invalid credentials
+2024-05-05 02:31:30 ERROR [auth_server ] FAILED LOGIN | User: sysadmin | Source: 192.168.1.105 | Reason: Invalid credentials
+2024-05-05 02:31:35 ERROR [auth_server ] FAILED LOGIN | User: root | Source: 192.168.1.105 | Reason: Invalid credentials
+2024-05-05 02:31:40 ERROR [auth_server ] FAILED LOGIN | User: backup | Source: 192.168.1.105 | Reason: Invalid credentials
+2024-05-05 02:31:45 WARN  [ids_system  ] BRUTE FORCE DETECTED | Source: 192.168.1.105 | Target: AUTH_SERVER | 5 failures in 15s
+2024-05-05 02:55:22 INFO  [file_server ] SESSION CLOSE | User: mvance | IP: 192.168.1.105 | Duration: 59m20s | Bytes transferred: 8.4MB
+2024-05-09 03:21:04 INFO  [file_server ] ARCHIVE CREATED | User: mvance | IP: 192.168.1.105 | Path: \\FILESVR01\tmp\.tmp_arc_x7z | Size: 14.1GB
+2024-05-09 03:45:59 INFO  [file_server ] FILE DELETED | User: mvance | IP: 192.168.1.105 | Path: \\FILESVR01\tmp\.tmp_arc_x7z
+2024-05-09 03:47:22 INFO  [file_server ] SESSION CLOSE | User: mvance | IP: 192.168.1.105 | Duration: 2h26m18s | Bytes transferred: 14.1GB
+2024-05-09 03:48:00 INFO  [badge_access] Door: LOADING_BAY_B | Badge: HEN-0047 (Derek Henderson) | Result: GRANTED (EXIT)
+2024-05-12 07:30:00 INFO  [alert_system] CASE OPENED | Ref: AX-2024-0089 | Investigator: Det. Okafor | Systems isolated: FILESVR01, AUTH_SERVER
+2024-05-12 07:31:14 INFO  [forensic    ] LOG PRESERVATION | Files copied to forensic workstation FW-01 | Hash verified: OK

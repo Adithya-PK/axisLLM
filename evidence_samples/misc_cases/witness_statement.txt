@@ -1,0 +1,76 @@
+AXIS FORENSIC PLATFORM — WITNESS STATEMENT
+Case Reference : AX-2024-0089
+Statement No.  : WS-003
+============================================================
+
+WITNESS STATEMENT
+
+Taken at: DeltaTech Corp, 14 Meridian Way, Suite 400
+Date    : 2024-05-13
+Time    : 10:15 AM
+Officer : Det. Sgt. Patricia Okafor (Badge #3812)
+Witness : James Kowalski, DOB 1984-07-22
+Position: Senior Systems Administrator, DeltaTech Corp
+
+I, James Kowalski, make the following statement of my own free will:
+
+I have worked at DeltaTech Corp for seven years as a Senior Systems
+Administrator. Part of my role involves monitoring access logs for our
+internal file servers and responding to automated security alerts.
+
+On or around April 30, 2024, I received an automated alert from our
+security monitoring system indicating that the account "mvance"
+(belonging to Marcus Vance, Head of Operations) had logged into the
+corporate file server FILESVR01 at approximately 02:15 AM UTC. This
+was unusual because Marcus was recorded as being on approved annual
+leave that day, and after-hours logins from the server room VLAN are
+flagged by our system.
+
+I reviewed the access logs and found that the session originated from
+internal IP address 192.168.1.105. That IP address is not assigned to
+Marcus Vance's registered workstation (which is 10.0.0.31). When I
+cross-referenced our DHCP lease records, 192.168.1.105 was assigned
+to a device with MAC address C4:E9:84:3A:0F:22 — a device that does
+not appear in our authorised equipment register.
+
+Over the following days I identified two further similar access events
+from the same source IP on May 2nd and May 5th, both between 01:00
+and 03:30 AM UTC. Each session accessed the Legal and Finance shared
+drives and downloaded files totalling approximately 4.2GB.
+
+On May 2nd I raised my concerns by email to the IT Security team and
+separately spoke to Marcus Vance directly. Marcus told me the accesses
+were his own, made from home. However, our VPN logs for those dates
+show no VPN session associated with his credentials, and a direct
+server room connection would require physical badge access.
+
+I subsequently checked the badge access records for the server room.
+On April 30th at 02:13 AM, badge access was granted using a card
+registered to Derek Henderson, Facilities Manager. I spoke to
+Mr Henderson, who confirmed he did not access the building that night
+and was unaware his card had been used.
+
+On May 9th, I noticed that approximately 14GB of data had been
+compressed into an encrypted archive on a temporary mount path on
+FILESVR01. The archive was deleted at 03:47 AM but I was able to
+recover metadata showing it had been created at 03:21 AM and accessed
+from IP 192.168.1.105.
+
+I have preserved all log files, DHCP records, badge access reports,
+and VPN logs on an isolated forensic workstation and have provided
+copies to the investigating team.
+
+I believe the evidence strongly suggests that Marcus Vance, or someone
+acting with his knowledge, used cloned credentials and an unregistered
+device to carry out unauthorised data exfiltration from DeltaTech Corp
+systems.
+
+I confirm that this statement is true to the best of my knowledge.
+
+Signed : James Kowalski
+Date   : 2024-05-13
+Witness: Det. Sgt. Patricia Okafor
+
+============================================================
+END OF STATEMENT
+Document ID: WS-003-AX20240089

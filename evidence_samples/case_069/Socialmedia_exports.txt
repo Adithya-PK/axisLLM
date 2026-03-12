@@ -1,0 +1,94 @@
+━━━━━━━━━━━━━━━━  INSTAGRAM  @karthik_ks_official  ━━━━━━━━━━━━━━━━
+
+Followers: 1,841  |  Following: 412  |  Account Status: ACTIVE (public)
+
+▷  [02 Feb 2026  20:10 IST]  POST
+   Caption : "Chennai life is different. scanning QR everywhere 😂
+              even at petrol bunks now. india going cashless fr"
+   Likes   : 72  |  Comments: 14
+   IP      : 49.206.112.34
+   ► FLAG  : Posted 9 days before crime. "QR at petrol bunks" comment
+             is specific to victim location type. Indicates reconnaissance.
+
+▷  [07 Feb 2026  17:45 IST]  SEARCH
+   Query   : "anna nagar petrol bunk upi payment"
+   ► FLAG  : Search 4 days before crime targets victim's exact area
+             (Murugan Petroleum, Anna Nagar West).
+
+▷  [07 Feb 2026  18:02 IST]  SEARCH
+   Query   : "how to print QR code sticker waterproof"
+   ► FLAG  : Confirms physical preparation for QR swap attack.
+
+▷  [09 Feb 2026  17:30 IST]  POST
+   Caption : "side income is real if you know how to work smart.
+              some people work 9-5, some people work smarter 💰"
+   Likes   : 108  |  Comments: 21
+   IP      : 49.206.112.34
+   ► FLAG  : Posted same day as Paytm account creation (17:22 IST).
+             "Side income" post 8 minutes after fraudulent account made.
+
+▷  [10 Feb 2026  11:44 IST]  POST
+   Caption : "setup done. ready to go 🔧📲
+              passive income loading... 🔄"
+   Image   : [photo of phone showing Paytm app — QR visible]
+   Likes   : 44
+   IP      : 49.206.112.34
+   ► FLAG  : "Setup done" posted 3 minutes after device print log shows
+             QR printed (11:43 IST). Image shows 9841076543@paytm QR.
+
+▷  [11 Feb 2026  11:20 IST]  POST
+   Caption : "mornings hit different when it all works out ☕💸
+              accountability to no one. free life."
+   Likes   : 93  |  Comments: 17
+   IP      : 49.206.112.34 → LOCATION: 13.0799°N, 80.2070°E
+   ► FLAG  : Posted 36 minutes after final fraudulent transaction (10:44).
+             Location coordinates 30m from Murugan Petroleum.
+             Balance at posting: INR 11,201 received.
+
+▷  [11 Feb 2026  12:30 IST]  SEARCH
+   Query   : "cyber crime complaint process india"
+   ► FLAG  : Searched 85 minutes after victim filed complaint.
+             Suggests awareness that complaint was filed.
+
+▷  [11 Feb 2026  14:00 IST]  STORY
+   Text    : "staying indoors today. rest day 🏠"
+   Views   : 412
+   ► FLAG  : Posted same time CBCID team arrives at crime scene (14:00).
+             Possible alibi construction.
+
+▷  [11 Feb 2026  17:30 IST]  ACCOUNT ACTION
+   Action  : @karthik_ks_official set to PRIVATE
+   ► FLAG  : Account hidden 30 minutes after Paytm account frozen (17:00).
+             Timing confirms awareness of police action.
+
+
+━━━━━━━━━━━━━━━━  TWITTER / X  @karthik_ks_  ━━━━━━━━━━━━━━━━━━━━━
+
+▷  [05 Feb 2026  09:10 IST]  TWEET
+   "digital payments in India have a massive trust gap.
+    people scan first, check later. nobody reads the UPI ID lol"
+   Likes: 31  |  Retweets: 4
+   ► FLAG  : 6 days before crime. Describes exact vulnerability
+             exploited in QR swap attack.
+
+▷  [11 Feb 2026  10:52 IST]  TWEET
+   "another W 🤑 back to sleep"
+   Likes: 19
+   ► FLAG  : Posted 1 minute after funds transferred to accomplice
+             (PTM-TRF-20260211105110 at 10:51 IST). "W" = win.
+
+
+━━━━━━━━━━━━━━━━  GOOGLE MAPS TIMELINE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[10 Feb 2026  10:30 IST]  LOCATION: Murugan Petroleum, Thanneer Pettai
+   Mode: Walked/stood  |  Duration: 4 minutes
+   ► FLAG  : RECONNAISSANCE VISIT the day before the crime.
+             Confirms prior visit to scope the location.
+
+[11 Feb 2026  08:22–08:25 IST]  LOCATION: Murugan Petroleum, Thanneer Pettai
+   Mode: Motorcycle  |  Duration: 3 minutes
+   ► FLAG  : Matches QR placement time. Cell tower + GPS + Maps all align.
+
+[11 Feb 2026  10:46–10:48 IST]  LOCATION: Murugan Petroleum, Thanneer Pettai
+   Mode: Motorcycle  |  Duration: 2 minutes
+   ► FLAG  : Matches QR removal after chat "total 11,200. go remove the QR"

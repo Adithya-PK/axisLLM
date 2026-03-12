@@ -1,0 +1,85 @@
+
+╔══════════════════════════════════════════════════════════════════╗
+║  SECTION A — PAYTM SERVER LOGS  (UPI: 9841076543@paytm)        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+2026-02-09 17:22:03  ACCOUNT_CREATE  user_id:PAY88204431  mobile:9841076543  device:SM-A346B
+                     ip:49.206.112.34  kyc_level:0  daily_limit:10000
+2026-02-10 11:41:00  QR_GENERATE     user_id:PAY88204431  qr_ref:QR-PAY-9841076543-001
+                     [Suspect generated QR for printing — IP: 49.206.112.34]
+
+-- Transaction Events (11 Feb 2026) --
+2026-02-11 09:14:18  CREDIT  PAY88204431  INR 650.00   from:rajesh9940@upi      ref:PTM20260211091418001
+2026-02-11 09:31:04  CREDIT  PAY88204431  INR 1200.00  from:deepa.v@oksbi       ref:PTM20260211093104002
+2026-02-11 09:31:44  CREDIT  PAY88204431  INR 800.00   from:sundar1980@ybl      ref:PTM20260211093144003
+2026-02-11 09:40:12  CREDIT  PAY88204431  INR 400.00   from:pradeep.m@paytm     ref:PTM20260211094012004
+2026-02-11 09:51:33  CREDIT  PAY88204431  INR 500.00   from:kavitha.rk@okaxis   ref:PTM20260211095133005
+2026-02-11 09:55:20  CREDIT  PAY88204431  INR 750.00   from:arun.petro@upi      ref:PTM20260211095520006
+2026-02-11 10:02:44  CREDIT  PAY88204431  INR 350.00   from:vino2002@paytm      ref:PTM20260211100244007
+2026-02-11 10:08:10  CREDIT  PAY88204431  INR 900.00   from:mrs.kamala@oksbi    ref:PTM20260211100810008
+2026-02-11 10:11:55  CREDIT  PAY88204431  INR 600.00   from:ravi.anna@ybl       ref:PTM20260211101155009
+2026-02-11 10:15:04  CREDIT  PAY88204431  INR 450.00   from:mani.fuel@paytm     ref:PTM20260211101504010
+2026-02-11 10:22:30  CREDIT  PAY88204431  INR 700.00   from:suresh.k88@okicici  ref:PTM20260211102230011
+2026-02-11 10:28:45  CREDIT  PAY88204431  INR 550.00   from:divya.nair@upi      ref:PTM20260211102845012
+2026-02-11 10:33:19  CREDIT  PAY88204431  INR 1000.00  from:raja.auto@paytm     ref:PTM20260211103319013
+2026-02-11 10:37:55  CREDIT  PAY88204431  INR 800.00   from:latha.m@oksbi       ref:PTM20260211103755014
+2026-02-11 10:41:02  CREDIT  PAY88204431  INR 500.00   from:venkat.v@ybl        ref:PTM20260211104102015
+2026-02-11 10:43:18  CREDIT  PAY88204431  INR 650.00   from:pavithra2026@upi    ref:PTM20260211104318016
+2026-02-11 10:44:21  CREDIT  PAY88204431  INR 350.00   from:nathan.fuel@okaxis  ref:PTM20260211104421017
+                     ─────────────────────────────────────────────
+                     TOTAL   :  17 transactions  |  INR 11,200.00
+                     ─────────────────────────────────────────────
+2026-02-11 10:51:10  TRANSFER_OUT  PAY88204431  INR 11200.00  to:9791234567@phonePe
+                     ref:PTM-TRF-20260211105110  note:"bala"
+                     [ALERT: Full balance transferred out within 7 min of last receipt]
+2026-02-11 17:00:00  ACCOUNT_FREEZE  PAY88204431  reason:POLICE_ORDER  ref:TNCYB-2026-0881
+                     balance_frozen:INR 0.00  [Transfer already completed — funds gone]
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  SECTION B — CELL TOWER LOCATION  (Airtel — 9841076543)        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+2026-02-11 08:15:00  TOWER: Alapakkam_BTS_04  [2.1 km from crime scene]  LAC:44210  CID:8821
+2026-02-11 08:19:44  TOWER: AnnaNagarWest_BTS_01  [0.8 km from crime scene]
+2026-02-11 08:22:03  TOWER: ThanneerPettai_BTS_07  [0.2 km from crime scene]
+                     [NOTE: Location matches chat log "reached" message at 08:22]
+2026-02-11 08:24:40  TOWER: ThanneerPettai_BTS_07  [stationary — on-scene]
+                     [NOTE: Matches "done. both QRs replaced" at 08:24]
+2026-02-11 08:27:00  TOWER: AnnaNagarWest_BTS_01  [moving away from scene]
+2026-02-11 10:46:11  TOWER: ThanneerPettai_BTS_07  [returns to scene — QR removal]
+                     [NOTE: Matches chat log "going now" at 10:46]
+2026-02-11 10:48:30  TOWER: AnnaNagarWest_BTS_01  [departing again]
+                     [NOTE: Matches "removed both. back at bike now" at 10:48]
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  SECTION C — SUSPECT DEVICE LOG  (Samsung Galaxy A34)          ║
+╚══════════════════════════════════════════════════════════════════╝
+
+2026-02-10 11:41:22  APP:com.paytm.app      QR_DOWNLOAD  qr_ref:QR-PAY-9841076543-001
+2026-02-10 11:43:05  APP:com.android.print  PRINT_JOB    file:QR_karthik_paytm.jpg  copies:3
+                     printer:HP_DeskJet_2722  [Bluetooth MAC: B4:3A:28:91:C1:44]
+2026-02-11 08:22:11  APP:com.whatsapp       MSG_SEND     chat:Bala_9791234567  "[LOCATION]"
+2026-02-11 08:24:19  APP:com.whatsapp       MSG_SEND     chat:Bala_9791234567  "done. both QRs replaced"
+2026-02-11 10:46:05  GPS_FIX               13.0801°N  80.2072°E  accuracy:6m
+2026-02-11 10:48:44  APP:com.whatsapp       MSG_SEND     chat:Bala_9791234567  "removed both. back at bike now"
+2026-02-11 10:50:22  APP:com.whatsapp       DELETE_MSG   chat:Bala_9791234567  count:26  [FAILED — storage]
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  SECTION D — CCTV NVR LOG  (Murugan Petroleum — Hikvision DS)  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+2026-02-11 08:21:55  CAM-01 (Front Entrance)  MOTION_DETECT  -> male, helmet on, black jacket
+2026-02-11 08:22:07  CAM-02 (Payment Counter) MOTION_DETECT  -> subject approaches counter
+2026-02-11 08:22:18  CAM-02 (Payment Counter) NOTE: Subject leans over counter board for ~8 seconds
+2026-02-11 08:22:40  CAM-02 (Payment Counter) NOTE: Subject straightens, steps back
+2026-02-11 08:22:55  CAM-01 (Front Entrance)  Subject exits. Motorcycle visible: TN 09 BK 4421
+2026-02-11 10:45:58  CAM-01 (Front Entrance)  Same motorcycle returns: TN 09 BK 4421
+2026-02-11 10:46:10  CAM-02 (Payment Counter) Subject approaches counter, peels sticker, exits quickly
+2026-02-11 10:48:12  CAM-01 (Front Entrance)  Subject departs on motorcycle TN 09 BK 4421
+
+[NOTE: Bike reg TN 09 BK 4421 = Hero Splendor+ registered to
+Karthik Selvam, 22/4 Krishnasamy Nagar, RS Puram, Coimbatore —
+RTO Tamil Nadu vehicle database. Confirmed same person.]

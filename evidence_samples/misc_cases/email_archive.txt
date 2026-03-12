@@ -1,0 +1,143 @@
+AXIS FORENSIC PLATFORM — EMAIL ARCHIVE EXPORT
+Case Reference : AX-2024-0089
+Mailbox        : m.vance@deltatech-corp.com
+Export Range   : 2024-04-28 to 2024-05-12
+Format         : Plain text (headers + body)
+============================================================
+
+════════════════════════════
+MESSAGE 001 of 006
+════════════════════════════
+From    : m.vance@deltatech-corp.com
+To      : r.price@protonmail.com
+Date    : 2024-04-28 17:42:09 UTC
+Subject : Re: Project Atlas — Delivery Timeline
+X-Mailer: Thunderbird 115.0
+
+Hi R,
+
+Following up on our conversation last week. I've confirmed the window
+for data retrieval is the second week of May. The overnight monitoring
+gap we identified is still in place — IT haven't patched the schedule.
+
+I'll need you to arrange the receiving infrastructure on your end by
+May 9th at the latest. The payload is larger than we initially thought
+(~14GB compressed) so make sure the pipeline can handle it.
+
+Regarding compensation — 40,000 XMR as discussed. I want 60% upfront
+once you confirm receipt and verify integrity. The remaining 40% within
+48 hours.
+
+Do NOT reply to this address after May 10th. Use the SecureComms handle.
+
+— M
+
+════════════════════════════
+MESSAGE 002 of 006
+════════════════════════════
+From    : it-alerts@deltatech-corp.com (Automated)
+To      : m.vance@deltatech-corp.com
+Date    : 2024-04-30 02:17:55 UTC
+Subject : [ALERT] Unusual after-hours login detected — Account: mvance
+
+This is an automated security notification.
+
+An after-hours login was recorded for your account:
+
+  User        : mvance
+  Source IP   : 192.168.1.105
+  Timestamp   : 2024-04-30 02:15:33 UTC
+  Location    : Internal Network — Server Room VLAN
+  Action      : Accessed \FILESVR01\Legal (read, 47 files)
+
+If this was not you, contact IT Security immediately at ext. 4400.
+
+This message was generated automatically. Do not reply.
+
+════════════════════════════
+MESSAGE 003 of 006
+════════════════════════════
+From    : j.kowalski@deltatech-corp.com
+To      : it-security@deltatech-corp.com
+Date    : 2024-05-02 09:11:22 UTC
+Subject : Suspicious access activity — FILESVR01
+
+Hi Team,
+
+I've noticed some anomalies I think need investigation:
+
+1. After-hours access to \FILESVR01\Legal on April 30th by mvance.
+   Marcus was on approved leave that day (I checked HR records).
+
+2. Three large file reads from the Q2-Finance share in the past week,
+   all between 01:00 and 03:00 UTC, all from IP 192.168.1.105.
+
+3. The security camera on the Elm Street parking entrance has been
+   "offline for maintenance" for 11 days now — facilities have no
+   record of scheduling that work.
+
+I might be reading into things, but it feels off. Can we pull the
+full access logs for FILESVR01 from the past 30 days?
+
+Thanks,
+James Kowalski
+Senior Systems Administrator
+
+════════════════════════════
+MESSAGE 004 of 006
+════════════════════════════
+From    : m.vance@deltatech-corp.com
+To      : j.kowalski@deltatech-corp.com
+Date    : 2024-05-02 11:34:07 UTC
+Subject : Re: Suspicious access activity — FILESVR01
+
+James,
+
+Thanks for flagging, but those accesses were mine. I was remote-in
+from home to finish some urgent legal filings before the deadline —
+should have sent a heads-up to the team, my bad.
+
+The camera issue is probably just facilities not logging it properly.
+I'll follow up with Dave in facilities.
+
+Nothing to worry about here. Let me know if you want to catch up.
+
+Marcus Vance
+Head of Operations — DeltaTech Corp
+
+════════════════════════════
+MESSAGE 005 of 006
+════════════════════════════
+From    : m.vance@deltatech-corp.com
+To      : r.price@protonmail.com
+Date    : 2024-05-08 23:55:41 UTC
+Subject : [NO SUBJECT]
+X-Mailer: Thunderbird 115.0
+
+Kowalski is asking questions. He went to IT Security.
+I've managed it for now but we need to move Thursday's timeline up.
+Can you do Wednesday instead? Same time, same location.
+Confirm on SecureComms only from now.
+
+— M
+
+════════════════════════════
+MESSAGE 006 of 006
+════════════════════════════
+From    : no-reply@xmr-exchange.net
+To      : m.vance@deltatech-corp.com
+Date    : 2024-05-09 06:12:00 UTC
+Subject : Transaction Confirmation — Ref #XMR-20240509-8841
+
+Your wallet has received a transfer.
+
+  Amount     : 24,000 XMR
+  From       : Wallet 4A7...f91e (anonymised)
+  Reference  : XMR-20240509-8841
+  Confirmed  : 2024-05-09 06:11:44 UTC
+
+Thank you for using XMR Exchange.
+
+============================================================
+END OF ARCHIVE — 6 MESSAGES
+Forensic hash (SHA-256): b9e3a1c4f2d8056789abcdef01234567abcdef9876543210abcdef9876543210

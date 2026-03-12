@@ -1,0 +1,11 @@
+Timestamp: 2026-03-12 00:11:05
+Source_IP: 192.168.1.14
+Destination_URL: sbi.283629.com
+Protocol: HTTPS
+Device_ID: android-AX8932
+
+Timestamp: 2026-03-12 00:11:32
+Source_IP: 192.168.1.14
+Destination_URL: sbi.283629.com/login
+Action: Credentials Submitted
+Status: Success

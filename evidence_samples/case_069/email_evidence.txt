@@ -1,0 +1,55 @@
+Return-Path   : <rajan.murugan.petro@gmail.com>
+Received      : from mail-sor-f41.google.com [209.85.220.41]
+                by mx.google.com; Wed, 11 Feb 2026 11:05:33 +0530
+Message-ID    : <CAKm9jR2026021111053@mail.gmail.com>
+Date          : Wed, 11 Feb 2026 11:05:30 +0530
+From          : S. Rajan <rajan.murugan.petro@gmail.com>
+To            : cybercrimecell@tnpolice.gov.in
+CC            : it-helpdesk@tnpolice.gov.in
+Subject       : UPI Fraud at my Petrol Bunk — Fake QR Code Placed on Counter
+MIME-Version  : 1.0
+Content-Type  : text/plain; charset=UTF-8
+
+────────────────────────────────────────────────────────────────────
+
+Sir / Madam,
+
+I am S. Rajan, proprietor of Murugan Petroleum,
+No. 14, Thanneer Pettai Main Road, Anna Nagar West, Chennai – 600040.
+Mobile: +91 9840022345  |  UPI: rajan.petroleum@sbi
+
+I am writing to report a UPI fraud that occurred at my petrol bunk
+this morning (11 February 2026).
+
+Between approximately 9:00 AM and 10:45 AM, multiple customers
+informed me that their UPI payments were not reflecting in my
+account. When I investigated, I found a fake QR code sticker had
+been pasted over my original QR board at the payment counter.
+
+The fake QR code belongs to UPI ID: 9841076543@paytm
+My genuine UPI ID is: rajan.petroleum@sbi
+
+One customer, Mr. Arun (regular), showed me his PhonePe transaction
+screen confirming payment to 9841076543@paytm — this is not my account.
+
+I estimate 15–17 customers were affected between 9:00 and 10:44 AM.
+Total estimated loss: INR 11,000–12,000.
+
+I have reviewed my CCTV recording and can see an unidentified male
+in a black jacket and half-face helmet who approached the counter
+at approximately 8:22 AM. He appeared to press something onto the
+QR board for about 8 seconds before leaving. He rode a motorcycle
+with registration TN 09 BK 4421.
+
+I have preserved:
+  1. The fake QR sticker (physical — kept in an envelope)
+  2. CCTV recording (11 Feb 2026, 08:00–11:00) on a USB drive
+  3. My SBI bank statement showing zero UPI receipts (09:00–11:00)
+  4. Screenshots of customer messages confirming wrong UPI credited
+
+Please register a case and take immediate action. I am available
+at +91 9840022345 at any time.
+
+Regards,
+S. Rajan
+Murugan Petroleum, Chennai

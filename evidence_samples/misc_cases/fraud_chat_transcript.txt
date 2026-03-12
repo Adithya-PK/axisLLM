@@ -1,0 +1,48 @@
+WhatsApp Chat Export
+Case Reference: Suspected Online Fraud
+Date: 12/03/2026
+
+[10:12 AM] Rahul Verma: Bro did the payment come?
+[10:13 AM] Vikram Singh: Not yet. The guy said he will transfer today.
+[10:14 AM] Rahul Verma: Tell him if he delays again we cancel the deal.
+
+[10:20 AM] Vikram Singh: I sent him the fake SBI verification link.
+[10:21 AM] Rahul Verma: Good. Did he open it?
+[10:21 AM] Vikram Singh: Yes he clicked. Waiting for OTP now.
+
+[10:23 AM] Rahul Verma: Once he sends OTP we can access his bank account.
+[10:24 AM] Vikram Singh: His number is 9876543210. He looks scared.
+
+[10:25 AM] Rahul Verma: Perfect. Transfer everything immediately after login.
+[10:26 AM] Vikram Singh: Should I move the money to the mule account?
+
+[10:27 AM] Rahul Verma: Yes send it to the account ending 8821.
+[10:27 AM] Rahul Verma: Don't keep it long in one place.
+
+[10:29 AM] Vikram Singh: He is asking if the message is really from SBI.
+[10:30 AM] Rahul Verma: Just say his account will be blocked in 24 hours.
+
+[10:31 AM] Vikram Singh: I sent him this link again
+http://sbi-verify-now.xyz/login
+
+[10:32 AM] Rahul Verma: Good. Once he logs in we capture the password.
+
+[10:35 AM] Vikram Singh: Got it. He just sent the OTP.
+[10:35 AM] Vikram Singh: OTP is 442199
+
+[10:36 AM] Rahul Verma: Login now. Transfer ₹75,000 first.
+
+[10:38 AM] Vikram Singh: Done. Money moved.
+
+[10:40 AM] Rahul Verma: If he complains just ignore him.
+
+[10:41 AM] Vikram Singh: What if he goes to police?
+
+[10:42 AM] Rahul Verma: Doesn't matter. We already used a fake SIM.
+
+[10:45 AM] Vikram Singh: Next target?
+[10:46 AM] Rahul Verma: Yes. Send phishing emails to the list tonight.
+
+[10:47 AM] Vikram Singh: Okay. Let's try another bank user.
+
+End of Chat Transcript

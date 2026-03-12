@@ -1,0 +1,3 @@
+transaction_id,date,time,sender_name,receiver_name,amount,currency,method,location
+TXN982134,11-03-2026,19:32,Rohit_Kumar (Victim),Adithya_Raj,600,INR,UPI,Chennai
+TXN982135,11-03-2026,19:34,Adithya_Raj,Hari_Krishna,300,INR,Cash Transfer,SRM Campus

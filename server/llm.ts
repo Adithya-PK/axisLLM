@@ -1,7 +1,7 @@
 import { Entity } from "@shared/schema";
 
 const OLLAMA_URL = "http://localhost:11434/api/chat";
-const MODEL = "llama3.1:8b";
+const MODEL = "phi3:mini";
 const VISION_MODEL = "llava:7b";
 
 const CRIME_TYPES = [
@@ -53,7 +53,7 @@ export async function analyzeEvidence(text: string, entities: Entity[], evidence
     .join(", ");
 
   // Trim evidence text — 2000 chars is enough for most cases
-  const evidenceSnippet = text.substring(0, 2000);
+  const evidenceSnippet = text.substring(0, 1200);
 
   const prompt = `You are AXIS, a forensic AI for Indian law enforcement. Analyze the evidence and return JSON only.
 

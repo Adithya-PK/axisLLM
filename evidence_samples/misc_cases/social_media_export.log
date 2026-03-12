@@ -1,0 +1,70 @@
+AXIS FORENSIC PLATFORM — SOCIAL MEDIA ACTIVITY LOG
+Case Reference : AX-2024-0089
+Platform       : SocialTrack Pro — Public & Semi-Public Data Export
+Subject Account: @m_vance_ops | User ID: 88441209
+Export Date    : 2024-05-13
+============================================================
+
+[2024-04-15 11:02:33] POST | @m_vance_ops
+"Heading to the coast this weekend. Needed a break from the office grind. #offgrid #deservedit"
+Likes: 14 | Comments: 2 | Shares: 0
+
+[2024-04-18 16:45:09] COMMENT | @m_vance_ops → @travel_pete
+"Ha, wish I could stay longer. Back Monday unfortunately. Big project at work this month."
+Parent post: "Great seeing old mates at the marina!"
+
+[2024-04-22 09:30:55] POST | @m_vance_ops
+"Nothing beats a Monday morning espresso before the chaos starts. Busy few weeks ahead. #corporate #grind"
+Likes: 8 | Comments: 1 | Shares: 0
+
+[2024-04-25 20:14:41] LIKE | @m_vance_ops liked post by @crypto_anon_daily
+Post content: "XMR remains the gold standard for financial privacy. Untraceable, decentralised, essential."
+
+[2024-04-26 20:31:17] LIKE | @m_vance_ops liked post by @darknet_observer
+Post content: "OpSec reminder: your employer's network logs EVERYTHING. Know your exposure."
+
+[2024-04-27 13:10:02] POST | @m_vance_ops
+"Thinking about investing in some new tech. Crypto looks interesting lately. Any recommendations? DMs open."
+Likes: 3 | Comments: 6 | Shares: 0
+
+[2024-04-27 13:45:18] COMMENT | @r_priceless_99 → @m_vance_ops
+"DM me. I know some opportunities that aren't on the public radar."
+[FLAGGED: @r_priceless_99 = r.price@protonmail.com — known alias r_priceless_99]
+
+[2024-04-28 08:55:30] DIRECT MESSAGE METADATA | @m_vance_ops ↔ @r_priceless_99
+Direction: OUTBOUND | Timestamp: 2024-04-28 08:55:30 | Status: READ
+[Content encrypted — metadata only available per warrant]
+
+[2024-04-28 09:02:14] DIRECT MESSAGE METADATA | @r_priceless_99 → @m_vance_ops
+Direction: INBOUND | Timestamp: 2024-04-28 09:02:14 | Status: READ
+
+[2024-04-30 03:15:44] POST | @m_vance_ops
+"Late night productive session done. Time to sleep. #hustle"
+Likes: 2 | Comments: 0 | Shares: 0
+[FLAGGED: Posted at 03:15 — correlates with server access session end 02:58:30 UTC same date]
+
+[2024-05-02 07:40:22] SEARCH | @m_vance_ops searched: "how to securely erase SSD windows"
+[2024-05-02 07:41:05] SEARCH | @m_vance_ops searched: "Monero wallet anonymous"
+[2024-05-02 07:42:18] SEARCH | @m_vance_ops searched: "best encrypted USB drives 2024"
+[2024-05-02 07:43:01] SEARCH | @m_vance_ops searched: "how long do corporate network logs last"
+
+[2024-05-05 11:22:09] POST | @m_vance_ops
+"Sometimes doing the right thing for yourself means accepting the cost. Life's too short for regret."
+Likes: 22 | Comments: 4 | Shares: 1
+
+[2024-05-08 19:05:50] LOCATION CHECK-IN | @m_vance_ops
+Location: Parking Structure B, Downtown — [coordinates: 51.5074° N, 0.1278° W]
+[FLAGGED: Matches location described in chat_logs.txt]
+
+[2024-05-09 07:15:33] POST | @m_vance_ops
+"Quiet morning. New chapter starting soon. #fresh #newbeginnings"
+Likes: 11 | Comments: 3 | Shares: 0
+[FLAGGED: Posted approx 3.5 hours after 14.1GB data archive transfer completed]
+
+[2024-05-10 00:00:00] ACCOUNT STATUS CHANGE | @m_vance_ops
+Profile set to PRIVATE. Previous status: PUBLIC.
+[FLAGGED: Account made private 2 days before arrest]
+
+============================================================
+END OF EXPORT | Total events: 18
+Forensic hash (SHA-256): d7f1b3e8c94a20678901234bcd5678ef90123456789abcdef01234567890abc

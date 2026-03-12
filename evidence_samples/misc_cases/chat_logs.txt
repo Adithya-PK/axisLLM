@@ -1,0 +1,45 @@
+AXIS FORENSIC PLATFORM — EXPORTED CHAT LOG
+Case Reference : AX-2024-0089
+Export Date    : 2024-05-12 08:45:00 UTC
+Platform       : SecureComms v3.1 (Encrypted Messenger)
+Participants   : marcus_v [ID:4421], shadow_broker [ID:9981]
+============================================================
+
+[2024-05-10 21:03:14] marcus_v: You there?
+[2024-05-10 21:03:41] shadow_broker: Yeah. Finally. Been waiting.
+[2024-05-10 21:04:02] marcus_v: The access window opens Thursday night. After 23:00.
+[2024-05-10 21:04:28] shadow_broker: How long do we have?
+[2024-05-10 21:04:55] marcus_v: 4 hours max before the overnight scan kicks in. Night security does rounds at 01:00 and 03:30.
+[2024-05-10 21:05:18] shadow_broker: That's tight. What about the server room badge?
+[2024-05-10 21:05:44] marcus_v: Already sorted. I cloned Henderson's card last week during the fire drill. He never noticed.
+[2024-05-10 21:06:03] shadow_broker: Smooth. What exactly are we pulling?
+[2024-05-10 21:06:31] marcus_v: The Q2 financial projections, client database export, and the IP filings folder on \FILESVR01\Legal.
+[2024-05-10 21:07:02] shadow_broker: Size?
+[2024-05-10 21:07:20] marcus_v: Roughly 14GB. Bring the encrypted drives I sent you.
+[2024-05-10 21:07:48] shadow_broker: Done. Where do we meet?
+[2024-05-10 21:08:10] marcus_v: Parking structure B, level 2. Come in through the Elm Street entrance. Cameras on that side are still down from the power outage.
+[2024-05-10 21:08:44] shadow_broker: What about the contact? Will they be ready to pay once we deliver?
+[2024-05-10 21:09:01] marcus_v: Already confirmed. 40k in XMR split 60/40. Your 40 goes to the wallet I sent.
+[2024-05-10 21:09:33] shadow_broker: And if something goes wrong?
+[2024-05-10 21:09:55] marcus_v: We abort. Delete everything. This conversation auto-deletes in 72 hours anyway.
+[2024-05-10 21:10:12] shadow_broker: Good. I'll be there. Don't be late.
+[2024-05-10 21:10:30] marcus_v: Never am.
+
+[2024-05-11 14:22:05] shadow_broker: Change of plan. Security patched the east wing door. Need another entry.
+[2024-05-11 14:23:18] marcus_v: Use the loading bay. Code is 7734. Same as last quarter.
+[2024-05-11 14:23:45] shadow_broker: You sure it hasn't changed?
+[2024-05-11 14:24:02] marcus_v: Checked this morning. Facilities never rotate it. Lazy.
+[2024-05-11 14:24:30] shadow_broker: Alright. Still Thursday?
+[2024-05-11 14:24:48] marcus_v: Yes. 23:15 sharp.
+[2024-05-11 14:25:10] shadow_broker: The buyer's getting impatient. Says he needs the IP filings before the patent filing deadline.
+[2024-05-11 14:25:38] marcus_v: Tell him to relax. He'll have it Friday morning.
+[2024-05-11 14:26:00] shadow_broker: He also wants proof the data is genuine before full payment.
+[2024-05-11 14:26:24] marcus_v: Send him the cover page screenshot I forwarded yesterday. That should be enough.
+[2024-05-11 14:26:50] shadow_broker: OK. One more thing — what do we do about the IT guy who's been asking questions?
+[2024-05-11 14:27:15] marcus_v: Kowalski? He's just paranoid. Ignore him. If he escalates I'll deal with it through HR.
+[2024-05-11 14:27:40] shadow_broker: Your call. See you Thursday.
+[2024-05-11 14:27:55] marcus_v: Burn this thread after.
+
+============================================================
+END OF EXPORT — TOTAL MESSAGES: 30
+Forensic hash (SHA-256): a3f8c2d1e4b7901234abcdef56789012abcdef1234567890abcdef1234567890
