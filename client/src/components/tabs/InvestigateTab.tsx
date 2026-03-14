@@ -83,7 +83,7 @@ export function InvestigateTab() {
             <h3 className="font-bold text-white">AXIS Investigator Assistant</h3>
             <p className="text-xs text-[#00d4aa] font-mono flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00d4aa] animate-pulse" />
-              Llama3.1:8b
+              phi3:mini
             </p>
           </div>
         </div>

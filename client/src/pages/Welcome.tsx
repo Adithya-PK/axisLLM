@@ -31,25 +31,37 @@ export default function Welcome() {
               className="object-contain"
               style={{ filter: "drop-shadow(0 0 16px rgba(0,212,170,0.5))" }}
               onError={(e) => {
-                // Fallback: hide broken image and show Zap icon via sibling
                 (e.target as HTMLImageElement).style.display = "none";
                 const fallback = (e.target as HTMLImageElement).nextElementSibling as HTMLElement;
                 if (fallback) fallback.style.display = "flex";
               }}
             />
-            {/* Fallback icon shown only if image fails to load */}
             <div style={{ display: "none" }} className="w-24 h-24 items-center justify-center text-[#00d4aa]">
               <Zap className="w-16 h-16" fill="currentColor" />
             </div>
           </div>
 
           <div>
-            <h1 className="text-5xl md:text-7xl font-display font-black tracking-tighter">
-              <span className="text-gradient-cyan">AXIS</span>
+            <h1
+              className="text-5xl md:text-7xl font-display font-black tracking-tighter leading-none"
+              style={{
+                background: "linear-gradient(135deg, #00d4aa 0%, #00b8ff 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                padding: "0.05em 0.1em 0.1em 0.05em",
+                display: "inline-block",
+                lineHeight: 1.1,
+              }}
+            >
+              AXIS
             </h1>
+            <p className="text-sm font-mono tracking-[0.18em] text-[#00d4aa]/70 uppercase mt-3">
+              Automated Examination &amp; Investigation System
+            </p>
             <p className="text-xl text-gray-400 leading-relaxed font-mono mt-4">
               Local LLM-powered Cybercrime Investigation Platform.
-              <br />Zero data telemetry. 100% device-side processing.
+              <br />Zero data telemetry. 100% Offline device-side processing.
             </p>
           </div>
 
@@ -82,7 +94,7 @@ export default function Welcome() {
               <Brain className="w-6 h-6 text-purple-400 mt-1 shrink-0" />
               <div>
                 <h4 className="font-bold text-white mb-1">Visual Analysis</h4>
-                <p className="text-sm text-gray-400">Upload screenshots and images for offline AI-powered forensic visual analysis via Moondream.</p>
+                <p className="text-sm text-gray-400">Upload screenshots and images for offline AI-powered forensic visual analysis via LLaVA.</p>
               </div>
             </div>
             <div className="glass-panel p-5 rounded-xl flex gap-4 items-start border-orange-500/20">

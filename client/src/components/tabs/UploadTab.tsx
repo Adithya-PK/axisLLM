@@ -1,91 +1,51 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   UploadCloud, AlertCircle, Loader2, Zap, X,
-  Image, FileText, FileSpreadsheet, ScrollText, FileType
+  Image, FileText, FileSpreadsheet, ScrollText, FileType, CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParseEvidence, useAnalyzeEvidence } from "@/hooks/use-analysis";
-import { useInvestigations } from "@/hooks/use-investigations";
+import { useInvestigations, type StoredFileMeta } from "@/hooks/use-investigations";
 import { useToast } from "@/hooks/use-toast";
 
 const EVIDENCE_INPUT_TYPES = [
-  {
-    icon: "💬",
-    label: "Chat Transcripts",
-    desc: "WhatsApp, Telegram, Signal, SMS exports. Extracts sender names, messages, links, phone numbers and criminal keywords.",
-    formats: ".txt .log",
-  },
-  {
-    icon: "📧",
-    label: "Email Archives",
-    desc: "Exported email threads, inbox dumps, phishing emails. Identifies senders, recipients, suspicious links and attachments.",
-    formats: ".txt .pdf",
-  },
-  {
-    icon: "📝",
-    label: "Witness Statements",
-    desc: "Typed or scanned victim/witness accounts. Extracts named individuals, dates, locations and reported events.",
-    formats: ".txt .pdf",
-  },
-  {
-    icon: "🖥️",
-    label: "System & Server Logs",
-    desc: "Firewall logs, access logs, IDS alerts, DHCP records. Extracts IPs, MAC addresses, usernames and anomalous activity.",
-    formats: ".log .txt",
-  },
-  {
-    icon: "💰",
-    label: "Financial Records",
-    desc: "Bank statements, UPI transaction history, crypto receipts. Extracts amounts, account numbers and suspicious transfers.",
-    formats: ".csv .txt .pdf",
-  },
-  {
-    icon: "📱",
-    label: "Social Media Exports",
-    desc: "Downloaded posts, DMs, activity logs. Identifies usernames, flagged posts, location check-ins and suspicious behaviour.",
-    formats: ".txt .csv .log",
-  },
-  {
-    icon: "🖼️",
-    label: "Image Evidence",
-    desc: "Screenshots, photos, scanned documents. Analyzed by LLaVA AI to extract visible text, names, URLs and criminal content.",
-    formats: ".png .jpg .jpeg .webp",
-  },
-  {
-    icon: "📊",
-    label: "Forensic Reports",
-    desc: "Analyst reports, investigation summaries, court documents. Extracts entities, findings and legal references.",
-    formats: ".pdf .txt",
-  },
+  { icon: "💬", label: "Chat Transcripts", desc: "WhatsApp, Telegram, Signal, SMS exports. Extracts sender names, messages, links, phone numbers and criminal keywords.", formats: ".txt .log" },
+  { icon: "📧", label: "Email Archives", desc: "Exported email threads, inbox dumps, phishing emails. Identifies senders, recipients, suspicious links and attachments.", formats: ".txt .pdf" },
+  { icon: "📝", label: "Witness Statements", desc: "Typed or scanned victim/witness accounts. Extracts named individuals, dates, locations and reported events.", formats: ".txt .pdf" },
+  { icon: "🖥️", label: "System & Server Logs", desc: "Firewall logs, access logs, IDS alerts, DHCP records. Extracts IPs, MAC addresses, usernames and anomalous activity.", formats: ".log .txt" },
+  { icon: "💰", label: "Financial Records", desc: "Bank statements, UPI transaction history, crypto receipts. Extracts amounts, account numbers and suspicious transfers.", formats: ".csv .txt .pdf" },
+  { icon: "📱", label: "Social Media Exports", desc: "Downloaded posts, DMs, activity logs. Identifies usernames, flagged posts, location check-ins and suspicious behaviour.", formats: ".txt .csv .log" },
+  { icon: "🖼️", label: "Image Evidence", desc: "Screenshots, photos, scanned documents. Analyzed by LLaVA AI to extract visible text, names, URLs and criminal content.", formats: ".png .jpg .jpeg .webp" },
+  { icon: "📊", label: "Forensic Reports", desc: "Analyst reports, investigation summaries, court documents. Extracts entities, findings and legal references.", formats: ".pdf .txt" },
 ];
 
 const ALL_ACCEPTS = ".txt,.log,.csv,.pdf,.png,.jpg,.jpeg,.webp";
 
-interface UploadedFile {
+interface LiveFile {
   file: File;
   id: string;
   isImage: boolean;
   isPDF: boolean;
 }
 
-function getFileIcon(file: File) {
-  if (file.type.startsWith("image/")) return <Image className="w-4 h-4 text-purple-400" />;
-  if (file.name.endsWith(".pdf")) return <FileType className="w-4 h-4 text-red-400" />;
-  if (file.name.endsWith(".csv")) return <FileSpreadsheet className="w-4 h-4 text-yellow-400" />;
-  if (file.name.endsWith(".log")) return <ScrollText className="w-4 h-4 text-blue-400" />;
+function getFileIcon(name: string, isImage: boolean, isPDF: boolean) {
+  if (isImage) return <Image className="w-4 h-4 text-purple-400" />;
+  if (isPDF) return <FileType className="w-4 h-4 text-red-400" />;
+  if (name.endsWith(".csv")) return <FileSpreadsheet className="w-4 h-4 text-yellow-400" />;
+  if (name.endsWith(".log")) return <ScrollText className="w-4 h-4 text-blue-400" />;
   return <FileText className="w-4 h-4 text-[#00d4aa]" />;
 }
 
-function detectEvidenceType(files: UploadedFile[]): string {
+function detectEvidenceType(files: StoredFileMeta[]): string {
   if (files.some(f => f.isImage)) return "Image Evidence";
-  if (files.some(f => f.file.name.endsWith(".csv"))) return "Financial Records";
-  if (files.some(f => f.file.name.endsWith(".log"))) return "System Logs";
-  if (files.some(f => f.file.name.endsWith(".pdf"))) return "Witness Statement";
+  if (files.some(f => f.name.endsWith(".csv"))) return "Financial Records";
+  if (files.some(f => f.name.endsWith(".log"))) return "System Logs";
+  if (files.some(f => f.isPDF)) return "Witness Statement";
   return "Chat Logs";
 }
 
 export function UploadTab({ onComplete }: { onComplete: () => void }) {
-  const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [liveFiles, setLiveFiles] = useState<LiveFile[]>([]);
   const [evidenceType, setEvidenceType] = useState<string>("Chat Logs");
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -95,27 +55,37 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
   const parseMutation = useParseEvidence();
   const analyzeMutation = useAnalyzeEvidence();
 
+  const analysisComplete = !!currentInvestigation?.analysis;
+  // Persistent file list from investigation (survives tab switches)
+  const storedFiles: StoredFileMeta[] = currentInvestigation?.uploadedFiles ?? [];
+
+  // Sync evidenceType from stored investigation on mount
+  useEffect(() => {
+    if (currentInvestigation?.evidenceType) setEvidenceType(currentInvestigation.evidenceType);
+  }, [currentInvestigation?.id]);
+
   const addFiles = (newFiles: FileList | File[]) => {
     const arr = Array.from(newFiles);
-    const mapped: UploadedFile[] = arr.map(f => ({
-      file: f,
-      id: Math.random().toString(36).slice(2),
+    const newLive: LiveFile[] = arr.map(f => ({
+      file: f, id: Math.random().toString(36).slice(2),
       isImage: f.type.startsWith("image/"),
       isPDF: f.name.toLowerCase().endsWith(".pdf"),
     }));
-    setFiles(prev => {
-      const combined = [...prev, ...mapped];
-      setEvidenceType(detectEvidenceType(combined));
-      return combined;
-    });
+    setLiveFiles(prev => [...prev, ...newLive]);
+    // Merge with stored to detect type
+    const allMeta: StoredFileMeta[] = [
+      ...storedFiles,
+      ...newLive.map(l => ({ id: l.id, name: l.file.name, size: l.file.size, isImage: l.isImage, isPDF: l.isPDF })),
+    ];
+    setEvidenceType(detectEvidenceType(allMeta));
   };
 
   const removeFile = (id: string) => {
-    setFiles(prev => {
-      const updated = prev.filter(f => f.id !== id);
-      if (updated.length > 0) setEvidenceType(detectEvidenceType(updated));
-      return updated;
-    });
+    setLiveFiles(prev => prev.filter(f => f.id !== id));
+    if (currentInvestigation) {
+      const updated = storedFiles.filter(f => f.id !== id);
+      updateInvestigation(currentInvestigation.id, { uploadedFiles: updated });
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,11 +105,11 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
     new Promise((res, rej) => { const r = new FileReader(); r.onload = e => res((e.target?.result as string).split(",")[1]); r.onerror = rej; r.readAsDataURL(file); });
 
   const handleUpload = async () => {
-    if (files.length === 0 || !currentInvestigation) return;
+    if (liveFiles.length === 0 || !currentInvestigation) return;
     try {
       let combinedText = "";
 
-      for (const uf of files) {
+      for (const uf of liveFiles) {
         if (uf.isImage) {
           toast({ title: `Analyzing image: ${uf.file.name}`, description: "Running LLaVA visual forensics..." });
           const base64 = await readAsBase64(uf.file);
@@ -166,8 +136,18 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
         }
       }
 
-      const primaryName = files[0].file.name;
-      updateInvestigation(currentInvestigation.id, { title: primaryName, fileName: primaryName, rawText: combinedText, evidenceType });
+      const primaryName = liveFiles[0].file.name;
+      // Save file metadata persistently into the investigation
+      const newMeta: StoredFileMeta[] = liveFiles.map(l => ({
+        id: l.id, name: l.file.name, size: l.file.size, isImage: l.isImage, isPDF: l.isPDF,
+      }));
+      const allMeta = [...storedFiles, ...newMeta];
+
+      updateInvestigation(currentInvestigation.id, {
+        title: primaryName, fileName: primaryName,
+        rawText: combinedText, evidenceType,
+        uploadedFiles: allMeta,
+      });
 
       toast({ title: "Parsing Evidence...", description: "Extracting entities..." });
       const parseResult = await parseMutation.mutateAsync({ text: combinedText, filename: primaryName, evidenceType });
@@ -175,9 +155,12 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
 
       toast({ title: "Analyzing Data...", description: "Running intelligence models..." });
       const analysisResult = await analyzeMutation.mutateAsync({ text: combinedText, entities: parseResult.entities, evidenceType });
-      updateInvestigation(currentInvestigation.id, { analysis: analysisResult });
 
-      toast({ title: "Analysis Complete", description: "Navigating to results." });
+      const autoTitle = `${analysisResult.crime_type} — ${primaryName}`;
+      updateInvestigation(currentInvestigation.id, { analysis: analysisResult, title: autoTitle });
+
+      setLiveFiles([]);
+      toast({ title: "Analysis Complete", description: "Navigate to Analysis tab to view results." });
       onComplete();
     } catch (error) {
       toast({ title: "Analysis Failed", description: error instanceof Error ? error.message : "Unknown error", variant: "destructive" });
@@ -185,11 +168,11 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
   };
 
   const isProcessing = parseMutation.isPending || analyzeMutation.isPending;
+  const allDisplayFiles = storedFiles; // always show from investigation store
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
 
-      {/* Header */}
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-display font-bold">Secure Evidence Ingestion</h2>
         <p className="text-muted-foreground font-mono text-sm">
@@ -219,26 +202,61 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
         </div>
       </div>
 
-      {/* File queue */}
-      {files.length > 0 && (
+      {/* Persistent file list — survives tab switches */}
+      {allDisplayFiles.length > 0 && (
         <div className="glass-panel rounded-xl overflow-hidden">
           <div className="px-4 py-3 border-b border-white/5 flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-              {files.length} file{files.length > 1 ? "s" : ""} queued · <span className="text-[#00d4aa]">{evidenceType}</span>
+            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+              {analysisComplete && <CheckCircle2 className="w-3.5 h-3.5 text-[#00d4aa]" />}
+              {allDisplayFiles.length} file{allDisplayFiles.length > 1 ? "s" : ""} {analysisComplete ? "analysed" : "queued"} · <span className="text-[#00d4aa]">{evidenceType}</span>
             </span>
-            <button onClick={() => setFiles([])} className="text-xs text-red-400 hover:text-red-300 transition-colors">Clear all</button>
+            {!analysisComplete && (
+              <button
+                onClick={() => currentInvestigation && updateInvestigation(currentInvestigation.id, { uploadedFiles: [] })}
+                className="text-xs text-red-400 hover:text-red-300 transition-colors"
+              >Clear all</button>
+            )}
           </div>
-          <ul className="divide-y divide-white/5 max-h-[180px] overflow-y-auto">
-            {files.map(uf => (
+          <ul className="divide-y divide-white/5 max-h-[200px] overflow-y-auto">
+            {allDisplayFiles.map(f => (
+              <li key={f.id} className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors">
+                {getFileIcon(f.name, f.isImage, f.isPDF)}
+                <div className="flex-1 overflow-hidden">
+                  <p className="text-sm text-white font-medium truncate">{f.name}</p>
+                  <p className="text-[10px] text-muted-foreground font-mono">
+                    {(f.size / 1024).toFixed(1)} KB · {f.isImage ? "Visual AI (LLaVA)" : f.isPDF ? "PDF extraction" : "Text parsing"}
+                  </p>
+                </div>
+                {!analysisComplete && (
+                  <button onClick={() => removeFile(f.id)} className="text-muted-foreground hover:text-red-400 p-1 transition-colors">
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* New files queued (not yet analysed) */}
+      {liveFiles.length > 0 && !isProcessing && (
+        <div className="glass-panel rounded-xl overflow-hidden border border-[#00d4aa]/20">
+          <div className="px-4 py-3 border-b border-white/5">
+            <span className="text-xs font-bold text-[#00d4aa] uppercase tracking-wider">
+              {liveFiles.length} new file{liveFiles.length > 1 ? "s" : ""} ready to analyse
+            </span>
+          </div>
+          <ul className="divide-y divide-white/5 max-h-[160px] overflow-y-auto">
+            {liveFiles.map(uf => (
               <li key={uf.id} className="flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors">
-                {getFileIcon(uf.file)}
+                {getFileIcon(uf.file.name, uf.isImage, uf.isPDF)}
                 <div className="flex-1 overflow-hidden">
                   <p className="text-sm text-white font-medium truncate">{uf.file.name}</p>
                   <p className="text-[10px] text-muted-foreground font-mono">
                     {(uf.file.size / 1024).toFixed(1)} KB · {uf.isImage ? "Visual AI (LLaVA)" : uf.isPDF ? "PDF extraction" : "Text parsing"}
                   </p>
                 </div>
-                <button onClick={() => removeFile(uf.id)} className="text-muted-foreground hover:text-red-400 p-1 transition-colors">
+                <button onClick={() => setLiveFiles(prev => prev.filter(f => f.id !== uf.id))} className="text-muted-foreground hover:text-red-400 p-1 transition-colors">
                   <X className="w-4 h-4" />
                 </button>
               </li>
@@ -277,7 +295,7 @@ export function UploadTab({ onComplete }: { onComplete: () => void }) {
         </div>
         <Button
           onClick={handleUpload}
-          disabled={files.length === 0 || isProcessing}
+          disabled={liveFiles.length === 0 || isProcessing}
           size="lg"
           className="w-full h-full min-h-[72px] text-base font-bold bg-gradient-cyan hover:opacity-90 text-[#0a0a0f] shadow-lg shadow-[#00d4aa]/25 disabled:opacity-50 transition-all"
         >

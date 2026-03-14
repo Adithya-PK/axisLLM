@@ -9,6 +9,14 @@ export type ChatMessage = {
   content: string;
 };
 
+export type StoredFileMeta = {
+  id: string;
+  name: string;
+  size: number;
+  isImage: boolean;
+  isPDF: boolean;
+};
+
 export type Investigation = {
   id: string;
   title: string;
@@ -16,6 +24,7 @@ export type Investigation = {
   evidenceType: string | null;
   rawText: string | null;
   fileName: string | null;
+  uploadedFiles: StoredFileMeta[];
   entities: Entity[];
   analysis: z.infer<typeof analyzeResponseSchema> | null;
   chatHistory: ChatMessage[];
@@ -34,7 +43,7 @@ interface InvestigationsContextType {
 
 const InvestigationsContext = createContext<InvestigationsContextType | undefined>(undefined);
 
-const STORAGE_KEY = "axis_investigations_v1";
+const STORAGE_KEY = "axis_investigations_v2";
 
 export function InvestigationsProvider({ children }: { children: ReactNode }) {
   const [investigations, setInvestigations] = useState<Investigation[]>([]);
@@ -63,6 +72,7 @@ export function InvestigationsProvider({ children }: { children: ReactNode }) {
       evidenceType: null,
       rawText: null,
       fileName: null,
+      uploadedFiles: [],
       entities: [],
       analysis: null,
       chatHistory: [],

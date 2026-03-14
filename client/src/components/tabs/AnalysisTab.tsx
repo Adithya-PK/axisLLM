@@ -2,6 +2,56 @@ import { useInvestigations } from "@/hooks/use-investigations";
 import { ShieldAlert, Users, Key, Scale, Target, Activity, FileSearch } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
+// Headings already shown in separate panels — skip them in the summary card
+const SKIP_HEADINGS = ["FINDINGS", "LEGAL RELEVANCE"];
+
+function renderSummary(summary: string) {
+  const blocks = summary.split("\n\n").filter(block => {
+    const colonIdx = block.indexOf(":\n");
+    if (colonIdx !== -1) {
+      const heading = block.substring(0, colonIdx).trim().toUpperCase();
+      if (SKIP_HEADINGS.includes(heading)) return false;
+    }
+    return true;
+  });
+
+  return blocks.map((block, i) => {
+    const colonNewline = block.indexOf(":\n");
+    if (colonNewline !== -1) {
+      const heading = block.substring(0, colonNewline);
+      const body = block.substring(colonNewline + 2);
+      return (
+        <div key={i} className={i > 0 ? "mt-5" : ""}>
+          <span className="text-[#00d4aa] font-bold text-xs uppercase tracking-widest block mb-1">{heading}</span>
+          <p className="text-gray-300 leading-relaxed text-sm">{body}</p>
+        </div>
+      );
+    }
+    return <p key={i} className={`text-gray-300 leading-relaxed text-sm ${i > 0 ? "mt-5" : ""}`}>{block}</p>;
+  });
+}
+
+// Group entities by type, show each type once with comma-separated values
+function groupEntities(entities: { type: string; value: string; flagged: boolean }[]) {
+  const order = ["Name","Username","Phone","Email","IP Address","URL","UPI ID","Amount","Device ID","Location","Date","Keyword"];
+  const grouped: Record<string, { values: string[]; flagged: boolean }> = {};
+
+  for (const ent of entities) {
+    if (!grouped[ent.type]) grouped[ent.type] = { values: [], flagged: false };
+    grouped[ent.type].values.push(ent.value);
+    if (ent.flagged) grouped[ent.type].flagged = true;
+  }
+
+  // Sort by known order first, then alphabetically
+  return Object.entries(grouped).sort(([a], [b]) => {
+    const ai = order.indexOf(a), bi = order.indexOf(b);
+    if (ai === -1 && bi === -1) return a.localeCompare(b);
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
+}
+
 export function AnalysisTab() {
   const { currentInvestigation } = useInvestigations();
 
@@ -20,6 +70,7 @@ export function AnalysisTab() {
   }
 
   const { analysis, entities } = currentInvestigation;
+  const grouped = groupEntities(entities);
 
   const riskColors = {
     Low: "text-green-400 bg-green-500/10 border-green-500/30",
@@ -32,7 +83,7 @@ export function AnalysisTab() {
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      
+
       {/* Top Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className={`glass-panel p-6 rounded-xl border-l-4 ${riskColor.split(' ')[2].replace('border', 'border-l')} flex flex-col justify-between`}>
@@ -41,9 +92,7 @@ export function AnalysisTab() {
             <ShieldAlert className="w-5 h-5 opacity-80" />
           </div>
           <div className="flex items-end justify-between">
-            <span className={`text-4xl font-black ${riskColor.split(' ')[0]}`}>
-              {analysis.risk_level}
-            </span>
+            <span className={`text-4xl font-black ${riskColor.split(' ')[0]}`}>{analysis.risk_level}</span>
             <span className="font-mono text-xl opacity-50">{analysis.risk_score}/100</span>
           </div>
         </div>
@@ -63,9 +112,7 @@ export function AnalysisTab() {
             <span className="text-sm font-bold text-[#0099ff] uppercase tracking-wider">Crime Type</span>
             <Target className="w-5 h-5 text-[#0099ff]" />
           </div>
-          <div className="text-xl font-bold text-white leading-tight">
-            {analysis.crime_type}
-          </div>
+          <div className="text-xl font-bold text-white leading-tight">{analysis.crime_type}</div>
         </div>
 
         <div className="glass-panel p-6 rounded-xl flex flex-col justify-between border-purple-500/20">
@@ -80,38 +127,43 @@ export function AnalysisTab() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        {/* Left Col - Entities Table */}
+
+        {/* Left Col - Grouped Entities Table */}
         <div className="lg:col-span-1 space-y-4">
           <h3 className="text-lg font-display font-bold flex items-center gap-2">
             <FileSearch className="w-5 h-5 text-[#00d4aa]" />
             Extracted Entities
           </h3>
           <div className="glass-panel rounded-xl overflow-hidden">
-            <div className="max-h-[500px] overflow-y-auto">
+            <div className="max-h-[560px] overflow-y-auto">
               <table className="w-full text-left border-collapse">
                 <thead className="bg-[#111118] sticky top-0 z-10 shadow-md">
                   <tr>
-                    <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-white/5">Type</th>
-                    <th className="p-4 text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-white/5">Value</th>
+                    <th className="px-4 py-3 text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-white/5 w-[35%]">Type</th>
+                    <th className="px-4 py-3 text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-white/5">Values</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
-                  {entities.length === 0 ? (
+                  {grouped.length === 0 ? (
                     <tr><td colSpan={2} className="p-4 text-center text-muted-foreground font-mono text-sm">No entities found</td></tr>
                   ) : (
-                    entities.map((ent, i) => (
-                      <tr key={i} className={`hover:bg-white/5 transition-colors ${ent.flagged ? 'bg-red-500/5' : ''}`}>
-                        <td className="p-4 text-sm font-mono whitespace-nowrap">
-                          <Badge variant="outline" className={ent.flagged ? 'border-red-500/50 text-red-400' : 'border-[#00d4aa]/30 text-[#00d4aa]'}>
-                            {ent.type}
-                          </Badge>
-                        </td>
-                        <td className={`p-4 text-sm ${ent.flagged ? 'text-red-200 font-medium' : 'text-gray-300'}`}>
-                          {ent.value}
-                        </td>
-                      </tr>
-                    ))
+                    grouped.flatMap(([type, { values }]) => {
+                      const isKeyword = type === "Keyword";
+                      return values.map((value, vi) => (
+                        <tr key={`${type}-${vi}`} className={`hover:bg-white/5 transition-colors ${isKeyword ? 'bg-red-500/5' : ''}`}>
+                          <td className="px-4 py-3 text-sm font-mono whitespace-nowrap align-middle">
+                            {vi === 0 ? (
+                              <Badge variant="outline" className={isKeyword ? 'border-red-500/50 text-red-400' : 'border-[#00d4aa]/30 text-[#00d4aa]'}>
+                                {type}
+                              </Badge>
+                            ) : null}
+                          </td>
+                          <td className={`px-4 py-3 text-sm ${isKeyword ? 'text-red-300 font-medium' : 'text-gray-300'}`}>
+                            {value}
+                          </td>
+                        </tr>
+                      ));
+                    })
                   )}
                 </tbody>
               </table>
@@ -121,59 +173,44 @@ export function AnalysisTab() {
 
         {/* Right Col - AI Intelligence */}
         <div className="lg:col-span-2 space-y-6">
-          
+
+          {/* Executive Summary */}
           <div className="glass-panel p-8 rounded-xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#00d4aa]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-            <h3 className="text-xl font-display font-bold mb-4 text-[#00d4aa]">Executive Summary</h3>
-            <p className="text-gray-300 leading-relaxed text-lg">
-              {analysis.summary}
-            </p>
+            <h3 className="text-xl font-display font-bold mb-6 text-[#00d4aa]">Executive Summary</h3>
+            <div>{renderSummary(analysis.summary)}</div>
           </div>
 
+          {/* Key Findings + Legal Frameworks */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="glass-panel p-6 rounded-xl">
-               <h3 className="text-md font-bold mb-4 text-white flex items-center gap-2">
-                 <Target className="w-4 h-4 text-orange-400" /> Key Findings
-               </h3>
-               <ul className="space-y-3">
-                 {analysis.key_findings.map((finding, i) => (
-                   <li key={i} className="flex items-start gap-3 text-sm text-gray-300 bg-black/20 p-3 rounded-lg border border-white/5">
-                     <div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5 shrink-0" />
-                     {finding}
-                   </li>
-                 ))}
-               </ul>
+              <h3 className="text-md font-bold mb-4 text-white flex items-center gap-2">
+                <Target className="w-4 h-4 text-orange-400" /> Key Findings
+              </h3>
+              <ul className="space-y-3">
+                {analysis.key_findings.map((finding, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-gray-300 bg-black/20 p-3 rounded-lg border border-white/5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5 shrink-0" />
+                    {finding}
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="glass-panel p-6 rounded-xl">
-               <h3 className="text-md font-bold mb-4 text-white flex items-center gap-2">
-                 <ShieldAlert className="w-4 h-4 text-[#0099ff]" /> Recommended Actions
-               </h3>
-               <ul className="space-y-3">
-                 {analysis.recommended_actions.map((action, i) => (
-                   <li key={i} className="flex items-start gap-3 text-sm text-gray-300 bg-black/20 p-3 rounded-lg border border-white/5">
-                     <div className="w-1.5 h-1.5 rounded-full bg-[#0099ff] mt-1.5 shrink-0" />
-                     {action}
-                   </li>
-                 ))}
-               </ul>
+            <div className="glass-panel p-6 rounded-xl border-purple-500/20">
+              <h3 className="text-md font-bold mb-4 text-purple-400 flex items-center gap-2">
+                <Scale className="w-4 h-4" /> Applicable Legal Frameworks
+              </h3>
+              <ul className="space-y-3">
+                {analysis.applicable_laws.map((law, i) => (
+                  <li key={i} className="flex items-start gap-3 text-sm text-purple-200 bg-purple-500/5 p-3 rounded-lg border border-purple-500/20">
+                    <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 shrink-0" />
+                    {law}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-
-          {analysis.applicable_laws.length > 0 && (
-            <div className="glass-panel p-6 rounded-xl border-purple-500/20">
-               <h3 className="text-md font-bold mb-4 text-purple-400 flex items-center gap-2">
-                 <Scale className="w-4 h-4" /> Applicable Legal Frameworks
-               </h3>
-               <div className="flex flex-wrap gap-2">
-                 {analysis.applicable_laws.map((law, i) => (
-                   <Badge key={i} variant="outline" className="bg-purple-500/10 border-purple-500/30 text-purple-300 py-1.5 px-3">
-                     {law}
-                   </Badge>
-                 ))}
-               </div>
-            </div>
-          )}
 
         </div>
       </div>
