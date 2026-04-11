@@ -191,3 +191,4 @@ This tool is intended for use by law enforcement, forensic analysts, and cyberse
 ---
 
 *Built for CBCID-style cybercrime forensic workflows. Offline. Private. Fast.*
+"# DermScan" 
